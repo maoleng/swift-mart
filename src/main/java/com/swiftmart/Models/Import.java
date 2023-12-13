@@ -10,9 +10,7 @@ public class Import
 
     @Id
     private String _id;
-
-    @DBRef
-    private User _user;
+    private String userId;
     private Double total;
     private Date createdAt;
 

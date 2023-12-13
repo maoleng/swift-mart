@@ -9,12 +9,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class OrderProduct
 {
 
-    @DBRef
-    private Order _order;
-
-    @DBRef
-    private Product _product;
-
+    private String orderId;
+    private String productId;
     private String name;
     private Integer amount;
     private Double price;

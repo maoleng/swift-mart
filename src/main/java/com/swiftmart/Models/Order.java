@@ -15,12 +15,9 @@ public class Order
     @Id
     private String _id;
 
-    @DBRef
-    private User _user;
-    @DBRef
-    private User _sale;
-    @DBRef
-    private String _location;
+    private String userId;
+    private String saleId;
+    private String locationId;
     private Float total;
     private String status;
     private String paymentMethod;

@@ -11,7 +11,6 @@ public class Category
 
     @Id
     private String _id;
-
     private String name;
 
 }

@@ -9,12 +9,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class ImportProduct
 {
 
-    @DBRef
-    private Import _import;
-
-    @DBRef
-    private Product _product;
-
+    private String importId;
+    private String productId;
     private String name;
     private Integer amount;
     private Double price;

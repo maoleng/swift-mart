@@ -19,8 +19,7 @@ public class Product
     private String sku;
     private Double price;
     private String description;
-    @DBRef
-    private Category _category;
+    private String categoryId;
     private Date createdAt;
 
 }

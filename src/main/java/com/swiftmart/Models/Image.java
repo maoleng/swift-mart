@@ -14,8 +14,6 @@ public class Image
     @Id
     private String _id;
     private String source;
-
-    @DBRef
-    private Product _product;
+    private String productId;
 
 }

@@ -23,10 +23,7 @@ public class User
     private String role;
     private String avatar;
     private String status;
-
-    @DBRef
-    private Location _location;
-
+    private String locationId;
     private Date sentAt;
     private Date createdAt;
 
