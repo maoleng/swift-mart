@@ -12,7 +12,7 @@ public class DashboardController extends BaseController
     @GetMapping(value = "/")
     public String index()
     {
-        return notLogin() ? "redirect:/auth/login" : "theme/master";
+        return notLogin() ? "redirect:/auth/login" : "user/index";
     }
 
 }

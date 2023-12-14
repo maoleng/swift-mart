@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<div th:replace="theme/head-tag :: headTag"></div>
+<link rel="stylesheet" type="text/css" th:href="@{/assets/css/vendors/datatables.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/assets/css/vendors/datatable-extension.css}">
+<div th:replace="theme/app-style :: appStyle"></div>
+<body>
+<div th:replace="theme/loader :: loader"></div>
+<div class="page-wrapper compact-sidebar compact-small material-icon" id="pageWrapper">
+    <div th:replace="theme/header :: header"></div>
+    <div th:replace="theme/menu :: menu"></div>
+    <div class="page-body-wrapper">
+        <div th:replace="theme/menu-sidebar :: menuSidebar"></div>
+        <div class="page-body">
+            <div class="container-fluid">
+                <div class="page-title">
+                    <div class="row">
+                        <div class="col-12 col-sm-6 p-0">
+                            <h3>Sample Page</h3>
+                        </div>
+                        <div class="col-12 col-sm-6 p-0">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item">
+                                    <a href="index.html">
+                                        <svg class="stroke-icon">
+                                            <use th:href="@{/assets/svg/icon-sprite.svg#breadcrumb-home}"></use>
+                                        </svg>
+                                    </a>
+                                </li>
+                                <li class="breadcrumb-item">Pages</li>
+                                <li class="breadcrumb-item active">Sample Page</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card">
+                            <div class="card-header pb-0 card-no-border">
+                                <h3>HTML5 Export Buttons</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="dt-ext table-responsive theme-scrollbar">
+                                    <table class="display" id="export-button">
+                                        <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Email</th>
+                                            <th>Phone</th>
+                                            <th>Role</th>
+                                            <th>Status</th>
+                                            <th>Location</th>
+                                            <th>Created At</th>
+                                            <th>Action</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:each="user : ${users}">
+                                            <td data-bs-toggle="modal" th:data-bs-target="'#modal-' + ${user.get_id()}" class="btn-hover-effect">
+                                                <img class="img-30 me-2" th:src="${user.getAvatar()}" alt="profile">
+                                                <span th:text="${user.getName()}"></span>
+                                            </td>
+                                            <div class="modal fade" th:id="'modal-' + ${user.get_id()}" tabindex="-1" role="dialog" aria-labelledby="exampleModallaptop1" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="col-xl-12">
+                                                            <div class="card social-profile mb-0">
+                                                                <div class="card-body">
+                                                                    <div class="social-img-wrap">
+                                                                        <div class="social-img"><img th:src="${user.getAvatar()}" alt="profile"></div>
+                                                                        <div class="edit-icon">
+                                                                            <svg>
+                                                                                <use th:href="@{assets/svg/icon-sprite.svg#profile-check}"></use>
+                                                                            </svg>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="social-details">
+                                                                        <h5 class="mb-1">
+                                                                            <span th:text="${user.getName()}"></span>
+                                                                        </h5>
+                                                                        <span class="f-light" th:text="${user.getRole()}"></span>
+                                                                        <ul class="social-follow">
+                                                                            <li>
+                                                                                <h5 class="mb-0">Email</h5><span class="f-light" th:text="${user.getEmail()}"></span>
+                                                                            </li>
+                                                                            <li>
+                                                                                <h5 class="mb-0">Phone</h5><span class="f-light" th:text="${user.getPhone()}"></span>
+                                                                            </li>
+                                                                            <li>
+                                                                                <h5 class="mb-0">Location</h5><span class="f-light" th:text="${user.getLocation()?.getAddress()}"></span>
+                                                                            </li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <td th:text="${user.getEmail()}"></td>
+                                            <td th:text="${user.getPhone()}"></td>
+                                            <td th:text="${user.getRole()}"></td>
+                                            <td th:text="${user.getStatus()}"></td>
+                                            <td th:text="${user.getLocation()?.getAddress()}"></td>
+                                            <td th:text="${user.getCreatedAt()?.toLocaleString()}"></td>
+                                            <td>
+                                                <ul class="action">
+                                                    <li class="edit"> <a href="#"><i class="icon-pencil-alt"></i></a></li>
+                                                    <li class="edit"> <a href="#"><i class="icon-eye"></i></a></li>
+                                                    <li class="delete"><a href="#"><i class="icon-trash"></i></a></li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                        <tfoot>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Position</th>
+                                            <th>Assign To</th>
+                                            <th>Age</th>
+                                            <th>Start date</th>
+                                            <th>Salary</th>
+                                            <th>Action</th>
+                                        </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="card">
+                            <div class="card-header card-no-border pb-0">
+                                <h3>Sample Card</h3>
+                                <span>Prior to publishing content on social media</span>
+                            </div>
+                            <div class="card-body">
+                                <p>"While written content continues to reign supreme as the cornerstone of every brand's digital marketing strategy, video and image-based content are becoming more and more prominent in the world of content marketing. The regular blog, social media posts, and a wide range of other written content formats are just a few examples."</p>
+                                <p th:text="${session.customAttribute}"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div th:replace="theme/footer :: footer"></div>
+    </div>
+</div>
+<div th:replace="theme/script :: script"></div>
+<script th:src="@{/assets/js/datatable/datatables/jquery.dataTables.min.js}"></script>
+<script th:src="@{/assets/js/datatable/datatable-extension/dataTables.buttons.min.js}"></script>
+<script th:src="@{/assets/js/datatable/datatable-extension/jszip.min.js}"></script>
+<script th:src="@{/assets/js/datatable/datatable-extension/buttons.colVis.min.js}"></script>
+<script th:src="@{/assets/js/datatable/datatable-extension/pdfmake.min.js}"></script>
+<script th:src="@{/assets/js/datatable/datatable-extension/vfs_fonts.js}"></script>
+<script th:src="@{/assets/js/datatable/datatable-extension/dataTables.autoFill.min.js}"></script>
+<script th:src="@{/assets/js/datatable/datatable-extension/dataTables.select.min.js}"></script>
+<script th:src="@{/assets/js/datatable/datatable-extension/buttons.bootstrap4.min.js}"></script>
+<script th:src="@{/assets/js/datatable/datatable-extension/buttons.html5.min.js}"></script>
+<script th:src="@{/assets/js/datatable/datatable-extension/buttons.print.min.js}"></script>
+<script th:src="@{/assets/js/datatable/datatable-extension/dataTables.bootstrap4.min.js}"></script>
+<script th:src="@{/assets/js/datatable/datatable-extension/dataTables.responsive.min.js}"></script>
+<script th:src="@{/assets/js/datatable/datatable-extension/responsive.bootstrap4.min.js}"></script>
+<script th:src="@{/assets/js/datatable/datatable-extension/dataTables.keyTable.min.js}"></script>
+<script th:src="@{/assets/js/datatable/datatable-extension/dataTables.colReorder.min.js}"></script>
+<script th:src="@{/assets/js/datatable/datatable-extension/dataTables.fixedHeader.min.js}"></script>
+<script th:src="@{/assets/js/datatable/datatable-extension/dataTables.rowReorder.min.js}"></script>
+<script th:src="@{/assets/js/datatable/datatable-extension/dataTables.scroller.min.js}"></script>
+<script th:src="@{/assets/js/datatable/datatable-extension/custom.js}"></script>
+<script th:src="@{/assets/js/tooltip-init.js}"></script>
+<div th:replace="theme/app-script :: appScript"></div>
+</body>
+</html>

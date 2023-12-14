@@ -25,6 +25,7 @@ public class User
     private String avatar;
     private String status;
     private String locationId;
+    private Location location;
     private Date sentAt;
     private Date createdAt;
 
