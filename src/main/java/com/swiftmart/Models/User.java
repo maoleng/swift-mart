@@ -1,5 +1,6 @@
 package com.swiftmart.Models;
 
+import com.swiftmart.Enums.UserStatus;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -32,9 +33,11 @@ public class User
     public String getStatusCard()
     {
         String cardClass ="";
-        if (status.equals("ACTIVE")) {
+        if (status.equals(UserStatus.ACTIVE.name())) {
             cardClass = "badge-success";
-        } else if (status.equals("INACTIVE")) {
+        } else if (status.equals(UserStatus.INACTIVE.name())) {
+            cardClass = "badge-info";
+        } else {
             cardClass = "badge-danger";
         }
 
