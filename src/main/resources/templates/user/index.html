@@ -103,7 +103,7 @@
                                             <td th:text="${user.getEmail()}"></td>
                                             <td th:text="${user.getPhone()}"></td>
                                             <td th:text="${user.getRole()}"></td>
-                                            <td th:text="${user.getStatus()}"></td>
+                                            <td th:utext="${user.getStatusCard()}"></td>
                                             <td th:text="${user.getLocation()?.getAddress()}"></td>
                                             <td th:text="${user.getCreatedAt()?.toLocaleString()}"></td>
                                             <td>
@@ -118,11 +118,12 @@
                                         <tfoot>
                                         <tr>
                                             <th>Name</th>
-                                            <th>Position</th>
-                                            <th>Assign To</th>
-                                            <th>Age</th>
-                                            <th>Start date</th>
-                                            <th>Salary</th>
+                                            <th>Email</th>
+                                            <th>Phone</th>
+                                            <th>Role</th>
+                                            <th>Status</th>
+                                            <th>Location</th>
+                                            <th>Created At</th>
                                             <th>Action</th>
                                         </tr>
                                         </tfoot>

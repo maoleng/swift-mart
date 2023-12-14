@@ -29,4 +29,16 @@ public class User
     private Date sentAt;
     private Date createdAt;
 
+    public String getStatusCard()
+    {
+        String cardClass ="";
+        if (status.equals("ACTIVE")) {
+            cardClass = "badge-success";
+        } else if (status.equals("INACTIVE")) {
+            cardClass = "badge-danger";
+        }
+
+        return "<span class=\"badge rounded-pill " + cardClass + "\">" + this.status + "</span>";
+    }
+
 }
