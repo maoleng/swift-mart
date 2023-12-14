@@ -147,7 +147,7 @@
     }
 
     $(".sidebar-title").on("click", function () {
-      $(".sidebar-title").removeClass("active");
+      // $(".sidebar-title").removeClass("active");
       $(".bg-overlay1").removeClass("active");
       $(".sidebar-submenu").removeClass("close-submenu").slideUp("normal");
       $(".sidebar-submenu, .menu-content").slideUp("normal");
