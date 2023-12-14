@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <div th:replace="theme/head-tag :: headTag"></div>
+<div th:replace="theme/app-style :: appStyle"></div>
 <body>
 <div class="tap-top"><i data-feather="chevrons-up"></i></div>
 <div class="container-fluid p-0">
@@ -42,6 +43,7 @@
         </div>
     </div>
     <div th:replace="theme/script :: script"></div>
+    <div th:replace="theme/app-script :: appScript"></div>
 </div>
 </body>
 </html>
