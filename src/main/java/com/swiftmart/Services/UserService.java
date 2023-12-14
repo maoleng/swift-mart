@@ -26,11 +26,15 @@ public class UserService extends BaseService
         return repository.getUserRepository().findByLocationId(location.get_id());
     }
 
-    public boolean authenticate(LoginRequest request)
+    public User authenticate(LoginRequest request)
     {
         User user = repository.getUserRepository().findByUsername(request.getUsername());
 
-        return user != null && !pe.matches(user.getPassword(), request.getPassword());
+        if (user != null && pe.matches(request.getPassword(), user.getPassword())) {
+            return user;
+        }
+
+        return null;
     }
 
     public void saveUser(RegisterRequest request)
