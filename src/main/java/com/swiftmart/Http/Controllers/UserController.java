@@ -53,7 +53,7 @@ public class UserController extends BaseController
 
         userService.update(authed(), request);
 
-        return "redirect:/user/";
+        return "redirect:/me";
     }
 
 
