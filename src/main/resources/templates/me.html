@@ -49,7 +49,7 @@
                                             <div>
                                                 <div class="avatar-edit">
                                                     <input id="imageUpload" type="file" accept=".png, .jpg, .jpeg">
-                                                    <input type="hidden" name="avatar" th:value="${session.authed.getAvatar()}" >
+                                                    <input id="i-avatar" type="hidden" name="avatar" th:value="${session.authed.getAvatar()}" >
                                                     <label for="imageUpload"></label>
                                                 </div>
                                                 <div class="avatar-preview">
@@ -87,27 +87,30 @@
         </div>
     </div>
     <div th:replace="theme/script :: script"></div>
-    <script th:src="@{/assets/js/datatable/datatables/jquery.dataTables.min.js}"></script>
-    <script th:src="@{/assets/js/datatable/datatable-extension/dataTables.buttons.min.js}"></script>
-    <script th:src="@{/assets/js/datatable/datatable-extension/jszip.min.js}"></script>
-    <script th:src="@{/assets/js/datatable/datatable-extension/buttons.colVis.min.js}"></script>
-    <script th:src="@{/assets/js/datatable/datatable-extension/pdfmake.min.js}"></script>
-    <script th:src="@{/assets/js/datatable/datatable-extension/vfs_fonts.js}"></script>
-    <script th:src="@{/assets/js/datatable/datatable-extension/dataTables.autoFill.min.js}"></script>
-    <script th:src="@{/assets/js/datatable/datatable-extension/dataTables.select.min.js}"></script>
-    <script th:src="@{/assets/js/datatable/datatable-extension/buttons.bootstrap4.min.js}"></script>
-    <script th:src="@{/assets/js/datatable/datatable-extension/buttons.html5.min.js}"></script>
-    <script th:src="@{/assets/js/datatable/datatable-extension/buttons.print.min.js}"></script>
-    <script th:src="@{/assets/js/datatable/datatable-extension/dataTables.bootstrap4.min.js}"></script>
-    <script th:src="@{/assets/js/datatable/datatable-extension/dataTables.responsive.min.js}"></script>
-    <script th:src="@{/assets/js/datatable/datatable-extension/responsive.bootstrap4.min.js}"></script>
-    <script th:src="@{/assets/js/datatable/datatable-extension/dataTables.keyTable.min.js}"></script>
-    <script th:src="@{/assets/js/datatable/datatable-extension/dataTables.colReorder.min.js}"></script>
-    <script th:src="@{/assets/js/datatable/datatable-extension/dataTables.fixedHeader.min.js}"></script>
-    <script th:src="@{/assets/js/datatable/datatable-extension/dataTables.rowReorder.min.js}"></script>
-    <script th:src="@{/assets/js/datatable/datatable-extension/dataTables.scroller.min.js}"></script>
-    <script th:src="@{/assets/js/datatable/datatable-extension/custom.js}"></script>
-    <script th:src="@{/assets/js/tooltip-init.js}"></script>
     <div th:replace="theme/app-script :: appScript"></div>
+    <script>
+        $('#imageUpload').on('change', function (e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+                    const base64Data = e.target.result.split(',')[1];
+                    $.ajax({
+                        url: 'https://api.imgbb.com/1/upload?expiration=0&key=44c3abcbb4d3f91a34d5d66a5f232cce',
+                        method: 'POST',
+                        data: { image: base64Data },
+                        success: function (response) {
+                            const url = response.data.display_url
+                            $('#i-avatar').val(url)
+                            $('#image').css('background-image', `url('${url}')`)
+                        },
+                    });
+                };
+
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
 </body>
 </html>
