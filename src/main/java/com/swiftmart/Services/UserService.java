@@ -2,10 +2,7 @@ package com.swiftmart.Services;
 
 import com.swiftmart.Enums.UserRole;
 import com.swiftmart.Enums.UserStatus;
-import com.swiftmart.Http.Requests.CreatePasswordRequest;
-import com.swiftmart.Http.Requests.LoginRequest;
-import com.swiftmart.Http.Requests.RegisterRequest;
-import com.swiftmart.Http.Requests.UserRequest;
+import com.swiftmart.Http.Requests.*;
 import com.swiftmart.Models.Location;
 import com.swiftmart.Models.User;
 import com.swiftmart.Repositories.Repository;
@@ -92,6 +89,18 @@ public class UserService extends BaseService
         user.setPhone(request.getPhone());
 
         repository.getUserRepository().save(user);
+    }
+
+    public boolean changePassword(User user, ChangePasswordRequest request)
+    {
+        if (! pe.matches(request.getOldPassword(), user.getPassword())) {
+            return false;
+        }
+
+        user.setPassword(pe.encode(request.getPassword()));
+        repository.getUserRepository().save(user);
+
+        return true;
     }
 
     public void toggleLockAccount(String userId)

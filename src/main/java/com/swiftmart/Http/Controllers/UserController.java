@@ -2,6 +2,7 @@ package com.swiftmart.Http.Controllers;
 
 import com.swiftmart.Enums.UserRole;
 import com.swiftmart.Enums.UserStatus;
+import com.swiftmart.Http.Requests.ChangePasswordRequest;
 import com.swiftmart.Http.Requests.UserRequest;
 import com.swiftmart.Models.User;
 import com.swiftmart.Services.UserService;
@@ -55,6 +56,17 @@ public class UserController extends BaseController
         userService.update(authed(), request);
 
         return "redirect:/me";
+    }
+
+    @PostMapping(value = "/update-password")
+    public String changePassword(@Valid ChangePasswordRequest request)
+    {
+        String c = authorize(); if (c != null) return c;
+
+        boolean status = userService.changePassword(authed(), request);
+
+        return status ? "redirect:/me?success=Change password successfully" :
+                "redirect:/me?error=Wrong old password";
     }
 
     @PostMapping(value = "/toggle-lock-account")

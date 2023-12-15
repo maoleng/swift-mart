@@ -3,10 +3,11 @@
     <script th:src="@{/assets/js/script.js}"></script>
     <script th:src="@{/assets/js/theme-customizer/customizer.js}"></script>
     <script>
-        function showError()
+        function showMessage()
         {
             const urlParams = new URLSearchParams(window.location.search);
             const error = urlParams.get('error');
+            const success = urlParams.get('success');
 
             if (error !== null) {
                 swal({
@@ -18,6 +19,17 @@
                 urlParams.delete('error');
                 history.replaceState(null, null, `?${urlParams.toString()}`);
             }
+            if (success !== null) {
+                swal({
+                    title: "Success",
+                    text: success,
+                    icon: "success",
+                })
+
+                urlParams.delete('success');
+                history.replaceState(null, null, `?${urlParams.toString()}`);
+            }
         }
+        showMessage();
     </script>
 </div>

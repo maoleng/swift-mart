@@ -37,46 +37,94 @@
             <div class="container-fluid">
                 <div class="edit-profile">
                     <div class="row">
-                        <div class="col-xl-12">
+                        <div class="col-xl-8">
                             <div class="card">
                                 <div class="card-header card-no-border pb-0">
-                                    <h3 class="card-title mb-0">My Profile</h3>
+                                    <h3 class="card-title mb-0">Information</h3>
                                     <div class="card-options"><a class="card-options-collapse" href="#" data-bs-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a><a class="card-options-remove" href="#" data-bs-toggle="card-remove"><i class="fe fe-x"></i></a></div>
                                 </div>
-                                <div class="card-body">
-                                    <form th:action="@{/user/update}" method="post" class="avatar-upload">
-                                        <div class="mb-3">
-                                            <div>
-                                                <div class="avatar-edit">
-                                                    <input id="imageUpload" type="file" accept=".png, .jpg, .jpeg">
-                                                    <input id="i-avatar" type="hidden" name="avatar" th:value="${session.authed.getAvatar()}" >
-                                                    <label for="imageUpload"></label>
-                                                </div>
-                                                <div class="avatar-preview">
-                                                    <div id="image" th:style="'background-image: url(' + ${session.authed.getAvatar()} + ')'"></div>
+                                <form th:action="@{/user/update}" method="post" class="card-body row">
+                                    <div class="card-wrapper rounded-3 col-xl-4">
+                                        <div class="row g-3 floating-wrapper avatar-upload">
+                                            <div class="pt-4">
+                                                <div>
+                                                    <div class="avatar-edit">
+                                                        <input id="imageUpload" type="file" accept=".png, .jpg, .jpeg">
+                                                        <input id="i-avatar" type="hidden" name="avatar" th:value="${session.authed.getAvatar()}" >
+                                                        <label for="imageUpload"></label>
+                                                    </div>
+                                                    <div class="avatar-preview">
+                                                        <div id="image" th:style="'background-image: url(' + ${session.authed.getAvatar()} + ')'"></div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="mb-3">
-                                            <label class="form-label">Email-Address</label>
-                                            <input name="email" disabled class="form-control" th:value="${session.authed.getEmail()}">
+                                    </div>
+                                    <div class="card-wrapper border rounded-3 col-xl-8">
+                                        <div class="row g-3 floating-wrapper">
+                                            <div class="col-12">
+                                                <div class="form-floating mb-3">
+                                                    <input disabled name="email" id="iEmail" class="form-control" th:value="${session.authed.getEmail()}" placeholder="Email">
+                                                    <label for="iEmail">Email Address</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="form-floating">
+                                                    <input name="name" class="form-control" th:value="${session.authed.getName()}" id="iName" placeholder="Name">
+                                                    <label for="iName">Name</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="form-floating">
+                                                    <input name="phone" th:value="${session.authed.getPhone()}" class="form-control" id="iPhone" type="text" placeholder="Phone">
+                                                    <label for="iPhone">Phone</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="form-floating">
+                                                    <input name="address" th:value="${session.authed.getAddress()}" class="form-control" id="iAddress" type="text" placeholder="Address">
+                                                    <label for="iAddress">Address</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <button class="btn btn-primary" type="submit">Change information</button>
+                                            </div>
                                         </div>
-                                        <div class="mb-3">
-                                            <label class="form-label">Name</label>
-                                            <input name="name" class="form-control" th:value="${session.authed.getName()}">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="form-label">Phone</label>
-                                            <input name="phone" class="form-control" type="text" th:value="${session.authed.getPhone()}">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="form-label">Address</label>
-                                            <input name="address" class="form-control" type="text" th:value="${session.authed.getAddress()}">
-                                        </div>
-                                        <div class="form-footer">
-                                            <button class="btn btn-primary btn-block">Save</button>
-                                        </div>
-                                    </form>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="col-xl-4">
+                            <div class="card">
+                                <div class="card-header card-no-border pb-0">
+                                    <h3>Password</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="card-wrapper border rounded-3">
+                                        <form id="form-password" th:action="@{/user/update-password}" method="post" class="row g-3 floating-wrapper">
+                                            <div class="col-12">
+                                                <div class="form-floating mb-3">
+                                                    <input name="oldPassword" class="form-control" id="floatingInput22" type="password" placeholder="Current Password">
+                                                    <label for="floatingInput22">Current password</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="form-floating">
+                                                    <input name="password" class="form-control" id="floatingPassword" type="password" placeholder="New Password">
+                                                    <label for="floatingPassword">New Password</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="form-floating">
+                                                    <input name="re_password" class="form-control" id="floatingPassword2" type="password" placeholder="Retype New Password">
+                                                    <label for="floatingPassword2">Retype New Password</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <button class="btn btn-primary" type="submit">Change password</button>
+                                            </div>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -89,6 +137,19 @@
     <div th:replace="theme/script :: script"></div>
     <div th:replace="theme/app-script :: appScript"></div>
     <script>
+        $('#form-password').submit(function (event) {
+            const password = $('input[name="password"]').val();
+            const rePassword = $('input[name="re_password"]').val();
+
+            if (password !== rePassword) {
+                swal({
+                    title: "Error",
+                    text: "Password is not match",
+                    icon: "error",
+                })
+                event.preventDefault();
+            }
+        })
         $('#imageUpload').on('change', function (e) {
             const file = e.target.files[0];
             if (file) {

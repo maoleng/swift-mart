@@ -45,7 +45,6 @@
     <div th:replace="theme/script :: script"></div>
     <div th:replace="theme/app-script :: appScript"></div>
     <script>
-        showError()
         const code = (new URLSearchParams(window.location.search)).get('code')
         if (code != null) {
             $('#i-code').val(code)
