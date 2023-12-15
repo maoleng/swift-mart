@@ -1,14 +1,20 @@
 package com.swiftmart.Services;
 
+import com.swiftmart.Enums.UserRole;
+import com.swiftmart.Enums.UserStatus;
 import com.swiftmart.Http.Requests.LoginRequest;
 import com.swiftmart.Http.Requests.RegisterRequest;
+import com.swiftmart.Http.Requests.UserRequest;
 import com.swiftmart.Models.Location;
 import com.swiftmart.Models.User;
 import com.swiftmart.Repositories.Repository;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import org.springframework.data.mongodb.core.query.Query;
 
@@ -53,11 +59,26 @@ public class UserService extends BaseService
         return null;
     }
 
-    public void saveUser(RegisterRequest request)
+    public void create(UserRequest request)
     {
         User user = new User();
-        user.setUsername(request.getUsername());
-        user.setPassword(pe.encode(request.getPassword()));
+        user.setName(request.getName());
+        String email = request.getEmail();
+        user.setEmail(email);
+        String username = email.split("@")[0];
+        user.setUsername(username);
+        user.setPassword(pe.encode(username));
+        user.setRole(UserRole.SALE.name());
+        user.setAvatar("https://cdn-icons-png.flaticon.com/512/5853/5853761.png");
+        user.setStatus(UserStatus.INACTIVE.name());
+        user.setSentAt(new Date());
+        user.setCreatedAt(new Date());
         repository.getUserRepository().save(user);
     }
+
+    public void update(User user)
+    {
+        repository.getUserRepository().save(user);
+    }
+
 }

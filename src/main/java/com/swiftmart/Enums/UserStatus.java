@@ -2,5 +2,8 @@ package com.swiftmart.Enums;
 
 public enum UserStatus
 {
-    ACTIVE, INACTIVE, DISABLE,
+    ACTIVE,
+    INACTIVE,
+    DISABLE,
+    CHANGING_PASSWORD,
 }

@@ -46,13 +46,13 @@
                                     </button>
                                     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModal" aria-hidden="true">
                                         <div class="modal-dialog modal-dialog-centered" role="document">
-                                            <div class="modal-content">
+                                            <form th:action="@{/user/}" method="post" class="modal-content">
                                                 <div class="modal-header">
                                                     <h5 class="modal-title">Create employee account</h5>
                                                     <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
                                                 </div>
                                                 <div class="modal-body">
-                                                    <form class="row g-3 floating-wrapper">
+                                                    <div class="row g-3 floating-wrapper">
                                                         <div class="col-12">
                                                             <div class="form-floating">
                                                                 <input name="name" class="form-control" id="fName" type="text" placeholder="Name">
@@ -65,14 +65,13 @@
                                                                 <label for="fEmail">Email address</label>
                                                             </div>
                                                         </div>
-
-                                                    </form>
+                                                    </div>
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Close</button>
-                                                    <button class="btn btn-primary" type="button">Send Email</button>
+                                                    <button class="btn btn-primary">Send Email</button>
                                                 </div>
-                                            </div>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>

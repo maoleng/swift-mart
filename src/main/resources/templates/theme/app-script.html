@@ -1,4 +1,23 @@
 <div th:fragment="appScript">
+    <script th:src="@{/assets/js/height-equal.js}"></script>
     <script th:src="@{/assets/js/script.js}"></script>
     <script th:src="@{/assets/js/theme-customizer/customizer.js}"></script>
+    <script>
+        function showError()
+        {
+            const urlParams = new URLSearchParams(window.location.search);
+            const error = urlParams.get('error');
+
+            if (error !== null) {
+                swal({
+                    title: "Error",
+                    text: error,
+                    icon: "error",
+                })
+
+                urlParams.delete('error');
+                history.replaceState(null, null, `?${urlParams.toString()}`);
+            }
+        }
+    </script>
 </div>
