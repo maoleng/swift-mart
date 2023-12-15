@@ -55,7 +55,7 @@ public class UserController extends BaseController
 
         userService.update(authed(), request);
 
-        return "redirect:/me";
+        return "redirect:/me?success=Update profile successfully";
     }
 
     @PostMapping(value = "/update-password")
