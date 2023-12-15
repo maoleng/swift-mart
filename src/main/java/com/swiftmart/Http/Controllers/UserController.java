@@ -1,5 +1,7 @@
 package com.swiftmart.Http.Controllers;
 
+import com.swiftmart.Enums.UserRole;
+import com.swiftmart.Enums.UserStatus;
 import com.swiftmart.Http.Requests.UserRequest;
 import com.swiftmart.Models.User;
 import com.swiftmart.Services.UserService;
@@ -37,9 +39,19 @@ public class UserController extends BaseController
     @PostMapping(value = "/")
     public String store(@Valid UserRequest request)
     {
-        String c = authorize(); if (c != null) return c;
+        String c = authorize(UserRole.ADMIN, UserRole.MANAGER); if (c != null) return c;
 
         userService.create(request);
+
+        return "redirect:/user/";
+    }
+
+    @PostMapping(value = "/update")
+    public String update(UserRequest request)
+    {
+        String c = authorize(); if (c != null) return c;
+
+        userService.update(authed(), request);
 
         return "redirect:/user/";
     }

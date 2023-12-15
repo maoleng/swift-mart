@@ -84,8 +84,13 @@ public class UserService extends BaseService
         repository.getUserRepository().save(user);
     }
 
-    public void update(User user)
+    public void update(User user, UserRequest request)
     {
+        user.setName(request.getName());
+        user.setAddress(request.getAddress());
+        user.setAvatar(request.getAvatar());
+        user.setPhone(request.getPhone());
+
         repository.getUserRepository().save(user);
     }
 

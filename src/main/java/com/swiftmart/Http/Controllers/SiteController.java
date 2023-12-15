@@ -5,14 +5,22 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping(value = "/error")
+@RequestMapping(value = "/")
 public class SiteController extends BaseController
 {
 
-    @GetMapping(value = "/")
-    public String index()
+    @GetMapping(value = "/error")
+    public String error()
     {
         return "error";
+    }
+
+    @GetMapping(value = "/me")
+    public String me()
+    {
+        String c = authorize(); if (c != null) return c;
+
+        return "me";
     }
 
 }

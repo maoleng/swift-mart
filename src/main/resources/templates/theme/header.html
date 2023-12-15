@@ -42,14 +42,14 @@
                 </li>
                 <li class="profile-nav onhover-dropdown pe-0 py-0">
                     <div class="d-flex profile-media">
-                        <img th:src="@{/assets/images/profile.png}" alt="">
+                        <img width="40px" th:src="${session.authed.getAvatar()}" alt="">
                         <div class="flex-grow-1">
-                            <span>Helen Walter</span>
-                            <p class="mb-0 font-roboto">Admin <i class="middle fa fa-angle-down"></i></p>
+                            <span th:text="${session.authed.getName()}"></span>
+                            <p class="mb-0 font-roboto"><span th:text="${session.authed.getRole()}"></span> <i class="middle fa fa-angle-down"></i></p>
                         </div>
                     </div>
                     <ul class="profile-dropdown onhover-show-div">
-                        <li><a href="user-profile.html"><i data-feather="user"></i><span>Account </span></a></li>
+                        <li><a th:href="@{/me}"><i data-feather="user"></i><span>Account </span></a></li>
                         <li><a href="email-application.html"><i data-feather="mail"></i><span>Inbox</span></a></li>
                         <li><a href="task.html"><i data-feather="file-text"></i><span>Taskboard</span></a></li>
                         <li><a href="edit-profile.html"><i data-feather="settings"></i><span>Settings</span></a></li>

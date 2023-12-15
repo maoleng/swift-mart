@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<div th:replace="theme/head-tag :: headTag"></div>
+<link rel="stylesheet" type="text/css" th:href="@{/assets/css/vendors/datatables.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/assets/css/vendors/datatable-extension.css}">
+<div th:replace="theme/app-style :: appStyle"></div>
+<body>
+<div th:replace="theme/loader :: loader"></div>
+<div class="page-wrapper compact-sidebar compact-small material-icon" id="pageWrapper">
+    <div th:replace="theme/header :: header"></div>
+    <div th:replace="theme/menu :: menu"></div>
+    <div class="page-body-wrapper">
+        <div th:replace="theme/menu-sidebar :: menuSidebar"></div>
+        <div class="page-body">
+            <div class="container-fluid">
+                <div class="page-title">
+                    <div class="row">
+                        <div class="col-12 col-sm-6 p-0">
+                            <h3>User Management</h3>
+                        </div>
+                        <div class="col-12 col-sm-6 p-0">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item">
+                                    <a href="/">
+                                        <svg class="stroke-icon">
+                                            <use th:href="@{/assets/svg/icon-sprite.svg#breadcrumb-home}"></use>
+                                        </svg>
+                                    </a>
+                                </li>
+                                <li class="breadcrumb-item">Home</li>
+                                <li class="breadcrumb-item active">User</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="edit-profile">
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <div class="card">
+                                <div class="card-header card-no-border pb-0">
+                                    <h3 class="card-title mb-0">My Profile</h3>
+                                    <div class="card-options"><a class="card-options-collapse" href="#" data-bs-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a><a class="card-options-remove" href="#" data-bs-toggle="card-remove"><i class="fe fe-x"></i></a></div>
+                                </div>
+                                <div class="card-body">
+                                    <form th:action="@{/user/update}" method="post" class="avatar-upload">
+                                        <div class="mb-3">
+                                            <div>
+                                                <div class="avatar-edit">
+                                                    <input id="imageUpload" type="file" accept=".png, .jpg, .jpeg">
+                                                    <input type="hidden" name="avatar" th:value="${session.authed.getAvatar()}" >
+                                                    <label for="imageUpload"></label>
+                                                </div>
+                                                <div class="avatar-preview">
+                                                    <div id="image" th:style="'background-image: url(' + ${session.authed.getAvatar()} + ')'"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Email-Address</label>
+                                            <input name="email" disabled class="form-control" th:value="${session.authed.getEmail()}">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Name</label>
+                                            <input name="name" class="form-control" th:value="${session.authed.getName()}">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Phone</label>
+                                            <input name="phone" class="form-control" type="text" th:value="${session.authed.getPhone()}">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Address</label>
+                                            <input name="address" class="form-control" type="text" th:value="${session.authed.getAddress()}">
+                                        </div>
+                                        <div class="form-footer">
+                                            <button class="btn btn-primary btn-block">Save</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div th:replace="theme/footer :: footer"></div>
+        </div>
+    </div>
+    <div th:replace="theme/script :: script"></div>
+    <script th:src="@{/assets/js/datatable/datatables/jquery.dataTables.min.js}"></script>
+    <script th:src="@{/assets/js/datatable/datatable-extension/dataTables.buttons.min.js}"></script>
+    <script th:src="@{/assets/js/datatable/datatable-extension/jszip.min.js}"></script>
+    <script th:src="@{/assets/js/datatable/datatable-extension/buttons.colVis.min.js}"></script>
+    <script th:src="@{/assets/js/datatable/datatable-extension/pdfmake.min.js}"></script>
+    <script th:src="@{/assets/js/datatable/datatable-extension/vfs_fonts.js}"></script>
+    <script th:src="@{/assets/js/datatable/datatable-extension/dataTables.autoFill.min.js}"></script>
+    <script th:src="@{/assets/js/datatable/datatable-extension/dataTables.select.min.js}"></script>
+    <script th:src="@{/assets/js/datatable/datatable-extension/buttons.bootstrap4.min.js}"></script>
+    <script th:src="@{/assets/js/datatable/datatable-extension/buttons.html5.min.js}"></script>
+    <script th:src="@{/assets/js/datatable/datatable-extension/buttons.print.min.js}"></script>
+    <script th:src="@{/assets/js/datatable/datatable-extension/dataTables.bootstrap4.min.js}"></script>
+    <script th:src="@{/assets/js/datatable/datatable-extension/dataTables.responsive.min.js}"></script>
+    <script th:src="@{/assets/js/datatable/datatable-extension/responsive.bootstrap4.min.js}"></script>
+    <script th:src="@{/assets/js/datatable/datatable-extension/dataTables.keyTable.min.js}"></script>
+    <script th:src="@{/assets/js/datatable/datatable-extension/dataTables.colReorder.min.js}"></script>
+    <script th:src="@{/assets/js/datatable/datatable-extension/dataTables.fixedHeader.min.js}"></script>
+    <script th:src="@{/assets/js/datatable/datatable-extension/dataTables.rowReorder.min.js}"></script>
+    <script th:src="@{/assets/js/datatable/datatable-extension/dataTables.scroller.min.js}"></script>
+    <script th:src="@{/assets/js/datatable/datatable-extension/custom.js}"></script>
+    <script th:src="@{/assets/js/tooltip-init.js}"></script>
+    <div th:replace="theme/app-script :: appScript"></div>
+</body>
+</html>

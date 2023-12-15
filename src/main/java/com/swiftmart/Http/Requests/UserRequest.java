@@ -18,4 +18,7 @@ public class UserRequest
     @NotEmpty(message = "Please provide name")
     private String name;
 
+    private String phone;
+    private String avatar;
+    private String address;
 }
