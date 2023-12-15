@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<div th:replace="theme/head-tag :: headTag"></div>
+<div th:replace="theme/app-style :: appStyle"></div>
+<body>
+<div class="tap-top"><i data-feather="chevrons-up"></i></div>
+<!-- tap on tap ends-->
+<!-- page-wrapper Start-->
+<div class="page-wrapper compact-sidebar compact-small material-icon" id="pageWrapper">
+    <!-- error-400 start-->
+    <div class="error-wrapper">
+        <div class="container"><img class="img-100" th:src="@{/assets/images/other-images/sad.gif}" alt="">
+            <div class="error-heading">
+                <h2 id="h-code" class="headline font-info"></h2>
+            </div>
+            <div class="col-md-8 offset-md-2">
+                <p id="p-message" class="sub-content"></p>
+            </div>
+            <div><a class="btn btn-info f-w-800 btn-lg" href="index.html">BACK TO HOME PAGE</a></div>
+        </div>
+    </div>
+    <!-- error-400 end-->
+
+    <div th:replace="theme/script :: script"></div>
+    <div th:replace="theme/app-script :: appScript"></div>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const code = urlParams.get('code');
+        const message = urlParams.get('message');
+        $('#h-code').text(code)
+        $('#p-message').text(message)
+        urlParams.delete('code');
+        urlParams.delete('message');
+    </script>
+</div>
+</body>
+</html>

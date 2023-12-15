@@ -1,6 +1,5 @@
 package com.swiftmart.Http.Controllers;
 
-import com.swiftmart.Http.Requests.LoginRequest;
 import com.swiftmart.Http.Requests.UserRequest;
 import com.swiftmart.Models.User;
 import com.swiftmart.Services.UserService;
@@ -27,7 +26,7 @@ public class UserController extends BaseController
     @GetMapping(value = "/")
     public String index(Model model)
     {
-        if (notLogin()) return "redirect:/auth/login";
+        String c = authorize(); if (c != null) return c;
 
         List<User> users = userService.getUsersWithLocations();
         model.addAttribute("users", users);
@@ -38,7 +37,7 @@ public class UserController extends BaseController
     @PostMapping(value = "/")
     public String store(@Valid UserRequest request)
     {
-        if (notLogin()) return "redirect:/auth/login";
+        String c = authorize(); if (c != null) return c;
 
         userService.create(request);
 

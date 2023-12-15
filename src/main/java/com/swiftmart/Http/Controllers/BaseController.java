@@ -1,5 +1,7 @@
 package com.swiftmart.Http.Controllers;
 
+import com.swiftmart.Enums.UserRole;
+import com.swiftmart.Enums.UserStatus;
 import com.swiftmart.Models.User;
 import com.swiftmart.Services.UserService;
 import jakarta.servlet.http.HttpSession;
@@ -36,10 +38,29 @@ abstract public class BaseController
         return authed() != null;
     }
 
-    protected boolean notLogin()
+    protected String authorize(UserRole ...roles)
     {
-        return authed() == null;
+        User user = authed();
+        if (user == null) {
+            return "redirect:/auth/login";
+        }
+        if (user.getStatus().equals(UserStatus.CHANGING_PASSWORD.name())) {
+            return "redirect:/auth/create-password";
+        }
+
+        if (roles.length > 0) {
+            for (UserRole role : roles) {
+                if (user.getRole().equals(role.name())) {
+                    return null;
+                }
+            }
+
+            return "redirect:/error?code=403&message=You are not allowed to access this page";
+        }
+
+        return null;
     }
+
 
     protected User authed()
     {

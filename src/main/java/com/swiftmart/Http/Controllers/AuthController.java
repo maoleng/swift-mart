@@ -1,6 +1,7 @@
 package com.swiftmart.Http.Controllers;
 
 import com.swiftmart.Enums.UserStatus;
+import com.swiftmart.Http.Requests.CreatePasswordRequest;
 import com.swiftmart.Http.Requests.LoginRequest;
 import com.swiftmart.Http.Requests.RegisterRequest;
 import com.swiftmart.Models.User;
@@ -41,6 +42,20 @@ public class AuthController extends BaseController
         return alreadyLogin() ? "redirect:/" : "auth/login";
     }
 
+    @GetMapping(value= "/create-password")
+    public String createPassword()
+    {
+        User user = authed();
+        if (user == null) {
+            return "redirect:/auth/login";
+        }
+        if (! user.getStatus().equals(UserStatus.CHANGING_PASSWORD.name())) {
+            return "redirect:/";
+        }
+
+        return "auth/create-password";
+    }
+
     @PostMapping(value= "/login")
     public String login(@Valid LoginRequest request, HttpServletRequest rq)
     {
@@ -77,4 +92,11 @@ public class AuthController extends BaseController
         return "redirect:/";
     }
 
+    @PostMapping(value ="/create-password")
+    public String createPassword(@Valid CreatePasswordRequest request)
+    {
+        userService.createPassword(authed(), request);
+
+        return "redirect:/";
+    }
 }

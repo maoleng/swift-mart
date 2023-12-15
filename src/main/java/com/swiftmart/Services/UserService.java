@@ -2,6 +2,7 @@ package com.swiftmart.Services;
 
 import com.swiftmart.Enums.UserRole;
 import com.swiftmart.Enums.UserStatus;
+import com.swiftmart.Http.Requests.CreatePasswordRequest;
 import com.swiftmart.Http.Requests.LoginRequest;
 import com.swiftmart.Http.Requests.RegisterRequest;
 import com.swiftmart.Http.Requests.UserRequest;
@@ -57,6 +58,13 @@ public class UserService extends BaseService
         }
 
         return null;
+    }
+
+    public void createPassword(User user, CreatePasswordRequest request)
+    {
+        user.setPassword(pe.encode(request.getPassword()));
+        user.setStatus(UserStatus.ACTIVE.name());
+        repository.getUserRepository().save(user);
     }
 
     public void create(UserRequest request)
