@@ -141,10 +141,14 @@
                                             <td th:text="${user.getLocation()?.getAddress()}"></td>
                                             <td th:text="${user.getCreatedAt()?.toLocaleString()}"></td>
                                             <td>
-                                                <ul class="action">
-                                                    <li th:if="${user.getStatus() == 'ACTIVE'}" class="edit"> <a href="#"><i class="icon-lock"></i></a></li>
-                                                    <li th:if="${user.getStatus() == 'DISABLED'}" class="edit"> <a href="#"><i class="icon-unlock"></i></a></li>
-                                                    <li th:if="${user.getStatus() == 'INACTIVE'}" class="edit"> <a href="#"><i class="icon-share-alt"></i></a></li>
+                                                <ul th:if="${session.authed.getRole() == 'ADMIN' || session.authed.getRole() == 'MANAGER'}" class="action">
+                                                    <li th:if="${user.getStatus() == 'ACTIVE' && user.getRole() == 'SALE'}" class="edit">
+                                                        <button th:data-id="${user.get_id()}" th:data-text="'You will lock ' + ${user.getName()}" class="btn-toggle_lock" type="button"><i class="icon-lock"></i></button>
+                                                    </li>
+                                                    <li th:if="${user.getStatus() == 'DISABLED'}" class="edit">
+                                                        <button th:data-id="${user.get_id()}" th:data-text="'You will unlock ' + ${user.getName()}" class="btn-toggle_lock" type="button"><i class="icon-unlock"></i></button>
+                                                    </li>
+                                                    <li th:if="${user.getStatus() == 'INACTIVE'}" class="edit"> <button href="#"><i class="icon-share-alt"></i></button></li>
                                                 </ul>
                                             </td>
                                         </tr>
@@ -197,5 +201,34 @@
 <script th:src="@{/assets/js/datatable/datatable-extension/custom.js}"></script>
 <script th:src="@{/assets/js/tooltip-init.js}"></script>
 <div th:replace="theme/app-script :: appScript"></div>
+<script>
+    $('.btn-toggle_lock').on('click', function () {
+        const userId = $(this).data('id');
+        console.log(userId)
+        swal({
+            title: "Are you sure?",
+            text: $(this).data('text'),
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        }).then((willDelete) => {
+            if (willDelete) {
+                $.ajax({
+                    url: `/user/toggle-lock-account?userId=${userId}`,
+                    method: 'POST',
+                    success: function () {
+                        swal("Successfully", {
+                            icon: "success",
+                        }).then(() => {window.location.reload();});
+                    },
+                })
+            } else {
+                swal("Your imaginary file is safe!");
+            }
+        });
+    })
+
+
+</script>
 </body>
 </html>

@@ -5,6 +5,7 @@ import com.swiftmart.Enums.UserStatus;
 import com.swiftmart.Http.Requests.UserRequest;
 import com.swiftmart.Models.User;
 import com.swiftmart.Services.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -55,6 +56,17 @@ public class UserController extends BaseController
 
         return "redirect:/me";
     }
+
+    @PostMapping(value = "/toggle-lock-account")
+    public String toggleLock(HttpServletRequest request)
+    {
+        String c = authorize(UserRole.ADMIN, UserRole.MANAGER); if (c != null) return c;
+
+        userService.toggleLockAccount(request.getParameter("userId"));
+
+        return "index";
+    }
+
 
 
 }

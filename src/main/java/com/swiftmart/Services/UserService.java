@@ -94,4 +94,15 @@ public class UserService extends BaseService
         repository.getUserRepository().save(user);
     }
 
+    public void toggleLockAccount(String userId)
+    {
+        User user = repository.getUserRepository().findById(userId).get();
+
+        String status = user.getStatus().equals(UserStatus.DISABLE.name()) ?
+                UserStatus.ACTIVE.name() :
+                UserStatus.DISABLE.name();
+        user.setStatus(status);
+        repository.getUserRepository().save(user);
+    }
+
 }
