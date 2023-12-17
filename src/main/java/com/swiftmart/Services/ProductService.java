@@ -66,5 +66,18 @@ public class ProductService extends BaseService
         repository.getProductRepository().save(product);
     }
 
+    public void create(ProductRequest request)
+    {
+        Product product = new Product();
+
+        product.setName(request.getName());
+        product.setImage(request.getImage());
+        product.setPrice(Double.parseDouble(request.getPrice()));
+        product.setDescription(request.getDescription());
+        product.setCategoryId(request.getCategory());
+
+        repository.getProductRepository().save(product);
+    }
+
 }
 

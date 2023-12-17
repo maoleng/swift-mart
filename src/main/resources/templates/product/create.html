@@ -15,7 +15,7 @@
                 <div class="page-title">
                     <div class="row">
                         <div class="col-12 col-sm-6 p-0">
-                            <h3>Product Management</h3>
+                            <h3>Create Product</h3>
                         </div>
                         <div class="col-12 col-sm-6 p-0">
                             <ol class="breadcrumb">
@@ -36,15 +36,6 @@
             <div class="container-fluid">
                 <div class="edit-profile">
                     <div class="row">
-                        <div class="col-xl-4 col-md-6 box-col-12">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="product-slider owl-carousel owl-theme" id="sync1">
-                                        <div class="item"><img width="80%" th:src="${product.getQRCode()}" alt=""></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                         <div class="col-xl-8">
                             <div class="card">
                                 <div class="card-header card-no-border pb-0">
@@ -58,11 +49,11 @@
                                                 <div>
                                                     <div class="avatar-edit">
                                                         <input id="imageUpload" type="file" accept=".png, .jpg, .jpeg">
-                                                        <input id="iImage" type="hidden" th:value="${product.getImage()}" >
+                                                        <input id="iImage" type="hidden" value="https://cdn-icons-png.flaticon.com/512/4129/4129528.png">
                                                         <label for="imageUpload"></label>
                                                     </div>
                                                     <div class="avatar-preview">
-                                                        <div id="image" th:style="'background-image: url(' + ${product.getImage()} + ')'"></div>
+                                                        <div id="image" style="background-image: url('https://cdn-icons-png.flaticon.com/512/4129/4129528.png')"></div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -72,13 +63,13 @@
                                         <div class="row g-3 floating-wrapper">
                                             <div class="col-12">
                                                 <div class="form-floating mb-3">
-                                                    <input class="form-control" th:value="${product.getName()}" id="iName" placeholder="Name">
+                                                    <input class="form-control" value="" id="iName" placeholder="Name">
                                                     <label for="iName">Name</label>
                                                 </div>
                                             </div>
                                             <div class="col-12">
                                                 <div class="form-floating">
-                                                    <input class="form-control" th:value="${product.getPrice()}" id="iPrice" placeholder="Price" type="number">
+                                                    <input class="form-control" value="" id="iPrice" placeholder="Price" type="number">
                                                     <label for="iPrice">Price</label>
                                                 </div>
                                             </div>
@@ -88,7 +79,6 @@
                                                         <option th:each="category : ${categories}"
                                                                 th:value="${category.get_id()}"
                                                                 th:text="${category.getName()}"
-                                                                th:selected="${category.get_id() == product.getCategoryId()}"
                                                         ></option>
                                                     </select>
                                                     <label for="iCategory">Category</label>
@@ -105,8 +95,8 @@
             <div class="container-fluid">
                 <div class="col-sm-12">
                     <div class="card">
-                        <form th:action="${'/product/edit/' + product.get_id()}" method="post" class="card-body">
-                            <textarea name="description" th:text="${product.getDescription()}" class="form-control" rows="3" id="t-description"></textarea>
+                        <form th:action="@{/product/}" method="post" class="card-body">
+                            <textarea name="description" class="form-control" rows="3" id="t-description"></textarea>
                             <input type="hidden" name="image">
                             <input type="hidden" name="name">
                             <input type="hidden" name="price">
@@ -114,7 +104,7 @@
                         </form>
                         <div class="card-footer">
                             <div class="col-12 offset-10">
-                                <button id="btn-update" class="btn btn-primary" type="submit">Update</button>
+                                <button id="btn-update" class="btn btn-primary" type="submit">Create</button>
                             </div>
                         </div>
                     </div>

@@ -31,8 +31,12 @@ public class ImportProductService extends BaseService
     public ImportProductInfo getImportedProductInfo(String productId)
     {
         List<ImportProduct> importProducts = repository.getImportProductRepository().getImportProductsByProductId(productId);
-        int importedAmount = sumImportedProduct(importProducts);
-        Double importPrice = importProducts.get(importProducts.size() - 1).getPrice();
+        int importedAmount = 0;
+        Double importPrice = 0.0;
+        if (! importProducts.isEmpty()) {
+            importedAmount = sumImportedProduct(importProducts);
+            importPrice = importProducts.get(importProducts.size() - 1).getPrice();
+        }
 
         return new ImportProductInfo(importPrice, importedAmount);
     }

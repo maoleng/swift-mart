@@ -45,6 +45,16 @@ public class ProductController extends BaseController
         return "product/edit";
     }
 
+    @GetMapping(value = "/create")
+    public String create(Model model)
+    {
+        String c = authorize(); if (c != null) return c;
+
+        model.addAttribute("categories", categoryService.findAll());
+
+        return "product/create";
+    }
+
     @PostMapping(value = "/edit/{id}")
     public String update(@PathVariable("id") String id, @Valid ProductRequest request)
     {
@@ -53,6 +63,16 @@ public class ProductController extends BaseController
         productService.update(id, request);
 
         return "redirect:/product/edit/" + id + "?success=Update product successfully";
+    }
+
+    @PostMapping(value = "/")
+    public String store(@Valid ProductRequest request)
+    {
+        String c = authorize(); if (c != null) return c;
+
+        productService.create(request);
+
+        return "redirect:/product/?success=Create product successfully";
     }
 
 }

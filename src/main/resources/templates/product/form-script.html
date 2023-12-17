@@ -1,0 +1,78 @@
+<script th:fragment="formScript">
+    $(document).ready(function () {
+        $('#btn-update').on('click', function () {
+            const form = $('form')
+            $('input[name="image"]').val($('#iImage').val())
+            $('input[name="name"]').val($('#iName').val())
+            $('input[name="price"]').val($('#iPrice').val())
+            $('input[name="category"]').val($('#iCategory').val())
+            form.submit()
+        })
+
+        tinymce.init({
+            selector: 'textarea#t-description',
+            content_css: 'tinymce-5-dark',
+            skin: 'oxide-dark',
+            height: 270,
+            plugins: 'advcode table checklist image advlist autolink lists link charmap preview codesample imagetool fullscreen',
+            toolbar: 'insertfile | blocks| bold italic | fullscreen | image | link | preview | codesample | bullist numlist checklist |  alignleft aligncenter alignright',
+            menubar: 'insert view',
+            mobile: {
+                menubar: true
+            },
+            setup: function(editor) {
+                editor.on('init', function (e) {
+                    setTimeout(function() {
+                        $("button[tabindex='-1'].tox-notification__dismiss.tox-button.tox-button--naked.tox-button--icon")[0].click()
+                    }, 10);
+                })
+            },
+            file_picker_types: 'image',
+            file_picker_callback: function (cb, value, meta) {
+                var input = document.createElement('input')
+                input.setAttribute('type', 'file');
+                input.setAttribute('accept', 'image/*')
+                input.onchange = function () {
+                    var file = this.files[0];
+                    var reader = new FileReader()
+                    reader.onload = function () {
+                        var id = 'blobid' + (new Date()).getTime()
+                        var blobCache =  tinymce.activeEditor.editorUpload.blobCache
+                        var base64 = reader.result.split(',')[1]
+                        var blobInfo = blobCache.create(id, file, base64)
+                        blobCache.add(blobInfo)
+                        cb(blobInfo.blobUri(), { title: file.name })
+                    }
+                    reader.readAsDataURL(file)
+                }
+                input.click()
+            },
+            content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+        });
+
+
+
+        $('#imageUpload').on('change', function (e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+                    const base64Data = e.target.result.split(',')[1];
+                    $.ajax({
+                        url: 'https://api.imgbb.com/1/upload?expiration=0&key=44c3abcbb4d3f91a34d5d66a5f232cce',
+                        method: 'POST',
+                        data: { image: base64Data },
+                        success: function (response) {
+                            const url = response.data.display_url
+                            $('#iImage').val(url)
+                            $('#image').css('background-image', `url('${url}')`)
+                        },
+                    });
+                };
+
+                reader.readAsDataURL(file);
+            }
+        });
+    })
+</script>
