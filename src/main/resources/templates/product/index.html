@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<div th:replace="theme/head-tag :: headTag"></div>
+<link rel="stylesheet" type="text/css" th:href="@{/assets/css/vendors/datatables.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/assets/css/vendors/datatable-extension.css}">
+<div th:replace="theme/app-style :: appStyle"></div>
+<body>
+<div th:replace="theme/loader :: loader"></div>
+<div class="page-wrapper compact-sidebar compact-small material-icon" id="pageWrapper">
+    <div th:replace="theme/header :: header"></div>
+    <div th:replace="theme/menu :: menu"></div>
+    <div class="page-body-wrapper">
+        <div th:replace="theme/menu-sidebar :: menuSidebar"></div>
+        <div class="page-body">
+            <div class="container-fluid">
+                <div class="page-title">
+                    <div class="row">
+                        <div class="col-12 col-sm-6 p-0">
+                            <h3>Product Management</h3>
+                        </div>
+                        <div class="col-12 col-sm-6 p-0">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item">
+                                    <a href="/">
+                                        <svg class="stroke-icon">
+                                            <use th:href="@{/assets/svg/icon-sprite.svg#breadcrumb-home}"></use>
+                                        </svg>
+                                    </a>
+                                </li>
+                                <li class="breadcrumb-item">Home</li>
+                                <li class="breadcrumb-item active">Product</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card">
+                            <div class="card-header pb-0 card-no-border">
+                                <h3>Users</h3>
+                                <div class="card-body badge-spacing">
+                                    <button class="btn btn-secondary" type="button" data-bs-toggle="modal" data-original-title="test" data-bs-target="#exampleModal">
+                                        Add Product
+                                    </button>
+                                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModal" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <form th:action="@{/user/}" method="post" class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Create new product</h5>
+                                                    <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="row g-3 floating-wrapper">
+                                                        <div class="col-12">
+                                                            <div class="form-floating">
+                                                                <input name="name" class="form-control" id="fName" type="text" placeholder="Name">
+                                                                <label for="fName">Name</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <div class="form-floating mb-3">
+                                                                <input name="email" class="form-control" id="fEmail" type="email" placeholder="name@example.com">
+                                                                <label for="fEmail">Email address</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Close</button>
+                                                    <button class="btn btn-primary">Send Email</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            <div class="card-body">
+                                <div class="dt-ext table-responsive theme-scrollbar">
+                                    <table class="display" id="export-button">
+                                        <thead>
+                                        <tr>
+                                            <th>Image</th>
+                                            <th>QR Code</th>
+                                            <th>Name</th>
+                                            <th>Category</th>
+                                            <th th:if="${session.authed.getRole() == 'ADMIN' || session.authed.getRole() == 'MANAGER'}">Price</th>
+                                            <th>Import Price</th>
+                                            <th>Quantity</th>
+                                            <th>Created At</th>
+                                            <th>Action</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:each="product : ${products}">
+                                            <td class="btn-hover-effect">
+                                                <img class="img-h-90 me-2" th:src="${product.getImage()}" alt="profile">
+                                            </td>
+                                            <td>
+                                                <img class="div-barcode" th:data-id="${product.get_id()}" src="">
+                                            </td>
+                                            <td><h6 th:text="${product.getName()}"></h6></td>
+                                            <td th:text="${product.getCategory()?.getName()}"></td>
+                                            <td th:text="${product.getPrice()}" class="td-price"></td>
+                                            <td th:if="${session.authed.getRole() == 'ADMIN' || session.authed.getRole() == 'MANAGER'}" th:text="${product.getImportPrice()}" class="td-price"></td>
+                                            <td th:text="${product.getQuantity()}"></td>
+                                            <td th:text="${product.getCreatedAt()?.toLocaleString()}"></td>
+                                            <td>
+                                                <div th:if="${session.authed.getRole() == 'ADMIN' || session.authed.getRole() == 'MANAGER'}" class="action">
+                                                    <a th:href="${'/product/edit/' + product.get_id()}" class="btn btn-pill btn-outline-success btn-air-success btn-sm m-r-5" type="button">Edit</a>
+                                                    <a class="btn btn-pill btn-outline-danger btn-air-danger btn-sm" type="button" title="btn btn-pill btn-outline-danger btn-air-danger btn-sm">Delete</a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                        <tfoot>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div th:replace="theme/footer :: footer"></div>
+    </div>
+</div>
+<div th:replace="theme/script :: script"></div>
+<script th:src="@{/assets/js/datatable/datatables/jquery.dataTables.min.js}"></script>
+<script th:src="@{/assets/js/datatable/datatable-extension/dataTables.buttons.min.js}"></script>
+<script th:src="@{/assets/js/datatable/datatable-extension/jszip.min.js}"></script>
+<script th:src="@{/assets/js/datatable/datatable-extension/buttons.colVis.min.js}"></script>
+<script th:src="@{/assets/js/datatable/datatable-extension/pdfmake.min.js}"></script>
+<script th:src="@{/assets/js/datatable/datatable-extension/vfs_fonts.js}"></script>
+<script th:src="@{/assets/js/datatable/datatable-extension/dataTables.autoFill.min.js}"></script>
+<script th:src="@{/assets/js/datatable/datatable-extension/dataTables.select.min.js}"></script>
+<script th:src="@{/assets/js/datatable/datatable-extension/buttons.bootstrap4.min.js}"></script>
+<script th:src="@{/assets/js/datatable/datatable-extension/buttons.html5.min.js}"></script>
+<script th:src="@{/assets/js/datatable/datatable-extension/buttons.print.min.js}"></script>
+<script th:src="@{/assets/js/datatable/datatable-extension/dataTables.bootstrap4.min.js}"></script>
+<script th:src="@{/assets/js/datatable/datatable-extension/dataTables.responsive.min.js}"></script>
+<script th:src="@{/assets/js/datatable/datatable-extension/responsive.bootstrap4.min.js}"></script>
+<script th:src="@{/assets/js/datatable/datatable-extension/dataTables.keyTable.min.js}"></script>
+<script th:src="@{/assets/js/datatable/datatable-extension/dataTables.colReorder.min.js}"></script>
+<script th:src="@{/assets/js/datatable/datatable-extension/dataTables.fixedHeader.min.js}"></script>
+<script th:src="@{/assets/js/datatable/datatable-extension/dataTables.rowReorder.min.js}"></script>
+<script th:src="@{/assets/js/datatable/datatable-extension/dataTables.scroller.min.js}"></script>
+<script th:src="@{/assets/js/datatable/datatable-extension/custom.js}"></script>
+<script th:src="@{/assets/js/tooltip-init.js}"></script>
+<div th:replace="theme/app-script :: appScript"></div>
+<script>
+    formatVNDByClass('td-price')
+    $('.div-barcode').each(function (index, element) {
+        const id = $(element).data('id')
+        $(element).attr('src', `https://chart.googleapis.com/chart?cht=qr&chs=100&chl=${id}`)
+    })
+</script>
+</body>
+</html>

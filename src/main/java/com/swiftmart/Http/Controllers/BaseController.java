@@ -3,6 +3,8 @@ package com.swiftmart.Http.Controllers;
 import com.swiftmart.Enums.UserRole;
 import com.swiftmart.Enums.UserStatus;
 import com.swiftmart.Models.User;
+import com.swiftmart.Services.CategoryService;
+import com.swiftmart.Services.ProductService;
 import com.swiftmart.Services.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
@@ -15,6 +17,8 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 abstract public class BaseController
 {
     protected UserService userService;
+    protected ProductService productService;
+    protected CategoryService categoryService;
 
     final Logger logger = LoggerFactory.getLogger(getClass());
     @SafeVarargs

@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository;
 public interface ImportRepository extends MongoRepository<Import, String>
 {
 
+    Import findTopByOrderByCreatedAtDesc();
+
 }
