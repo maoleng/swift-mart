@@ -3,9 +3,7 @@ package com.swiftmart.Http.Controllers;
 import com.swiftmart.Enums.UserRole;
 import com.swiftmart.Enums.UserStatus;
 import com.swiftmart.Models.User;
-import com.swiftmart.Services.CategoryService;
-import com.swiftmart.Services.ProductService;
-import com.swiftmart.Services.UserService;
+import com.swiftmart.Services.*;
 import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +17,8 @@ abstract public class BaseController
     protected UserService userService;
     protected ProductService productService;
     protected CategoryService categoryService;
+    protected OrderProductService orderProductService;
+    protected OrderService orderService;
 
     final Logger logger = LoggerFactory.getLogger(getClass());
     @SafeVarargs
@@ -63,6 +63,29 @@ abstract public class BaseController
         }
 
         return null;
+    }
+
+    protected boolean authorizeApi(UserRole ...roles)
+    {
+        User user = authed();
+        if (user == null) {
+            return false;
+        }
+        if (user.getStatus().equals(UserStatus.CHANGING_PASSWORD.name())) {
+            return false;
+        }
+
+        if (roles.length > 0) {
+            for (UserRole role : roles) {
+                if (user.getRole().equals(role.name())) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        return true;
     }
 
 

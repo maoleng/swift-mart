@@ -11,5 +11,6 @@ public interface OrderProductRepository extends MongoRepository<OrderProduct, St
 {
 
     List<OrderProduct> getOrderProductsByProductId(String productId);
+    List<OrderProduct> getOrderProductsByOrderId(String orderId);
 
 }

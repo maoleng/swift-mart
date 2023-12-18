@@ -27,5 +27,10 @@ public class OrderProductService extends BaseService
         return orderAmount;
     }
 
+    public List<OrderProduct> getOrderProductsByOrderId(String orderId)
+    {
+        return repository.getOrderProductRepository().getOrderProductsByOrderId(orderId);
+    }
+
 }
 
