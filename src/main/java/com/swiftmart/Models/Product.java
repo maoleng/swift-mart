@@ -27,9 +27,9 @@ public class Product
     private Category category;
     private Double importPrice;
 
-    public String getQRCode()
+    public String getQRCode(Integer size)
     {
-        return "https://chart.googleapis.com/chart?cht=qr&chs=500&chl=" + _id;
+        return "https://chart.googleapis.com/chart?cht=qr&chs=" + size + "&chl=" + _id;
     }
 
 }

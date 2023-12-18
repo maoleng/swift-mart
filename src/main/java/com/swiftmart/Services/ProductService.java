@@ -79,5 +79,17 @@ public class ProductService extends BaseService
         repository.getProductRepository().save(product);
     }
 
+    public boolean destroy(String id) {
+        boolean canDestroy = repository.getImportProductRepository().getImportProductsByProductId(id).isEmpty() &&
+                repository.getOrderProductRepository().getOrderProductsByProductId(id).isEmpty();
+
+        if (canDestroy) {
+            repository.getProductRepository().delete(findBy_id(id));
+        }
+
+        return canDestroy;
+    }
+
+
 }
 

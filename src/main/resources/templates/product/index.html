@@ -97,7 +97,7 @@
                                                 <img class="img-h-90 me-2" th:src="${product.getImage()}" alt="profile">
                                             </td>
                                             <td>
-                                                <img class="div-barcode" th:data-id="${product.get_id()}" src="">
+                                                <img th:src="${product.getQRCode(100)}">
                                             </td>
                                             <td><h6 th:text="${product.getName()}"></h6></td>
                                             <td th:text="${product.getCategory()?.getName()}"></td>
@@ -108,7 +108,8 @@
                                             <td>
                                                 <div th:if="${session.authed.getRole() == 'ADMIN' || session.authed.getRole() == 'MANAGER'}" class="action">
                                                     <a th:href="${'/product/edit/' + product.get_id()}" class="btn btn-pill btn-outline-success btn-air-success btn-sm m-r-5" type="button">Edit</a>
-                                                    <a class="btn btn-pill btn-outline-danger btn-air-danger btn-sm" type="button" title="btn btn-pill btn-outline-danger btn-air-danger btn-sm">Delete</a>
+                                                    <a th:data-text="'You will delete ' + ${product.getName()}" class="btn-delete btn btn-pill btn-outline-danger btn-air-danger btn-sm" type="button">Delete</a>
+                                                    <form th:action="${'/product/' + product.get_id()}" method="post"></form>
                                                 </div>
                                             </td>
                                         </tr>
@@ -151,10 +152,25 @@
 <div th:replace="theme/app-script :: appScript"></div>
 <script>
     formatVNDByClass('td-price')
-    $('.div-barcode').each(function (index, element) {
-        const id = $(element).data('id')
-        $(element).attr('src', `https://chart.googleapis.com/chart?cht=qr&chs=100&chl=${id}`)
+
+    $('.btn-delete').on('click', function () {
+        const id = $(this).data('id')
+        swal({
+            title: "Are you sure?",
+            text: $(this).data('text'),
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        }).then((willDelete) => {
+            if (willDelete) {
+                const form = $(this).closest('div').find('form');
+                form.submit()
+            } else {
+                swal("Your product is safe!");
+            }
+        });
     })
+
 </script>
 </body>
 </html>

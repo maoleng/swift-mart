@@ -75,4 +75,17 @@ public class ProductController extends BaseController
         return "redirect:/product/?success=Create product successfully";
     }
 
+    @PostMapping(value = "/{id}")
+    public String delete(@PathVariable("id") String id)
+    {
+        String c = authorize(); if (c != null) return c;
+
+        boolean isSuccess = productService.destroy(id);
+        String msg = isSuccess ?
+                "success=Delete product successfully" :
+                "error=Failed to delete product, product is in order or import";
+
+        return "redirect:/product/?" + msg;
+    }
+
 }
