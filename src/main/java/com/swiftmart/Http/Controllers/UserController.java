@@ -32,7 +32,7 @@ public class UserController extends BaseController
     {
         String c = authorize(); if (c != null) return c;
 
-        List<User> users = userService.getUsersWithLocations();
+        List<User> users = userService.getUsersWithLocations(UserRole.ADMIN, UserRole.MANAGER, UserRole.SALE);
         model.addAttribute("users", users);
 
         return "user/index";

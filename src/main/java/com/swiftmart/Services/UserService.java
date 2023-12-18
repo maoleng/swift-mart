@@ -8,12 +8,17 @@ import com.swiftmart.Models.User;
 import com.swiftmart.Repositories.Repository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import org.springframework.data.mongodb.core.query.Query;
 
 @Service
@@ -31,9 +36,8 @@ public class UserService extends BaseService
         return repository.getUserRepository().findByLocationId(location.get_id());
     }
 
-    public List<User> getUsersWithLocations() {
-        Query query = new Query();
-        List<User> users = mongoTemplate.find(query, User.class);
+    public List<User> getUsersWithLocations(UserRole ...roles) {
+        List<User> users = repository.getUserRepository().findByRoleIn(Stream.of(roles).map(Enum::name).toList());
 
         for (User user : users) {
             String locationId = user.getLocationId();
