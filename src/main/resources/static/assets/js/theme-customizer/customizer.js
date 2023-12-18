@@ -482,3 +482,7 @@ $(function () {
     $("html").attr("dir", layout);
   });
 });
+
+if (window.location.pathname !== '/') {
+  $('#a-home').removeClass('active')
+}

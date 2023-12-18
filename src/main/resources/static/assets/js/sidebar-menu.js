@@ -322,8 +322,8 @@
 
   // page active
   if ($("#pageWrapper").hasClass("compact-sidebar")) {
-    // $(".sidebar-wrapper nav").find("a").removeClass("active");
-    // $(".sidebar-wrapper nav").find("li").removeClass("active");
+    $(".sidebar-wrapper nav").find("a").removeClass("active");
+    $(".sidebar-wrapper nav").find("li").removeClass("active");
 
     var current = window.location.pathname;
     $(".sidebar-wrapper nav ul li a").filter(function () {

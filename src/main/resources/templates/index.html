@@ -1,10 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+<div th:replace="theme/head-tag :: headTag"></div>
+<link rel="stylesheet" type="text/css" th:href="@{/assets/css/vendors/datatables.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/assets/css/vendors/datatable-extension.css}">
+<div th:replace="theme/app-style :: appStyle"></div>
 <body>
-bfdbdfnfgnfgnfg
+<div th:replace="theme/loader :: loader"></div>
+<div class="page-wrapper compact-sidebar compact-small material-icon" id="pageWrapper">
+    <div th:replace="theme/header :: header"></div>
+    <div th:replace="theme/menu :: menu"></div>
+    <div class="page-body-wrapper">
+        <div th:replace="theme/menu-sidebar :: menuSidebar"></div>
+        <div class="page-body">
+            <div class="container-fluid">
+                <div class="page-title">
+                    <div class="row">
+                        <div class="col-12 col-sm-6 p-0">
+                            <h3>Dashboard</h3>
+                        </div>
+                        <div class="col-12 col-sm-6 p-0">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item">
+                                    <a href="/">
+                                        <svg class="stroke-icon">
+                                            <use th:href="@{/assets/svg/icon-sprite.svg#breadcrumb-home}"></use>
+                                        </svg>
+                                    </a>
+                                </li>
+                                <li class="breadcrumb-item">Home</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="col-sm-12">
+                            <div class="card">
+                                <div class="card-header card-no-border pb-0">
+                                    <h3>Sample Card</h3>
+                                    <span>Prior to publishing content on social media</span>
+                                </div>
+                                <div class="card-body">
+                                    <p>"While written content continues to reign supreme as the cornerstone of every brand's digital marketing strategy, video and image-based content are becoming more and more prominent in the world of content marketing. The regular blog, social media posts, and a wide range of other written content formats are just a few examples."</p>
+                                    <p>bdfbndfbdfbmdfkjlbmdf</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div th:replace="theme/footer :: footer"></div>
+        </div>
+    </div>
+    <div th:replace="theme/script :: script"></div>
+    <div th:replace="theme/app-script :: appScript"></div>
 </body>
 </html>
