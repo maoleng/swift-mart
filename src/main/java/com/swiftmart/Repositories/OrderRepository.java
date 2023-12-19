@@ -11,5 +11,6 @@ public interface OrderRepository extends MongoRepository<Order, String>
 {
 
     List<Order> getOrdersByUserId(String userId);
+    Order findBy_id(String orderId);
 
 }

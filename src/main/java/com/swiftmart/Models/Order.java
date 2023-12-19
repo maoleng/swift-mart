@@ -24,7 +24,7 @@ public class Order
     private String status;
     private String paymentMethod;
     private Double receivedMoney;
-    private Double changedMoney;
+    private Double gaveBackMoney;
     private Date createdAt;
 
     public String getStatusCard()

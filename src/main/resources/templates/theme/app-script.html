@@ -33,9 +33,12 @@
         function formatVNDByClass(className)
         {
             $(`.${className}`).each(function() {
-                const price = parseFloat($(this).text());
-                $(this).text(price.toLocaleString('it-IT', {style : 'currency', currency : 'VND'}));
+                $(this).text(formatVND(parseFloat($(this).text())));
             });
+        }
+        function formatVND(money)
+        {
+            return money.toLocaleString('it-IT', {style : 'currency', currency : 'VND'})
         }
         showMessage();
     </script>

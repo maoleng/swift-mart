@@ -1,6 +1,7 @@
 package com.swiftmart.Services;
 
 import com.swiftmart.Models.Order;
+import com.swiftmart.Models.Samples.OrderInfo;
 import com.swiftmart.Repositories.Repository;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,14 @@ public class OrderService extends BaseService
     public List<Order> getOrdersByUserId(String userId)
     {
         return repository.getOrderRepository().getOrdersByUserId(userId);
+    }
+
+    public OrderInfo getOrderInfo(String orderId)
+    {
+        return new OrderInfo(
+            repository.getOrderRepository().findBy_id(orderId),
+            repository.getOrderProductRepository().getOrderProductsByOrderId(orderId)
+        );
     }
 
 }
