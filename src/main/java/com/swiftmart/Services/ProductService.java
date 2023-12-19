@@ -10,6 +10,7 @@ import com.swiftmart.Repositories.Repository;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @org.springframework.stereotype.Service
@@ -90,6 +91,15 @@ public class ProductService extends BaseService
         return canDestroy;
     }
 
+    public List<String> getProductNames()
+    {
+        List<String> names = new ArrayList<>();
+        repository.getProductRepository().findAll().forEach((Product product) -> {
+            names.add(product.getName());
+        });
+
+        return names;
+    }
 
 }
 

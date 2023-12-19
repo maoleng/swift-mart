@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<div th:replace="theme/head-tag :: headTag"></div>
+<link rel="stylesheet" type="text/css" th:href="@{/assets/css/vendors/datatables.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/assets/css/vendors/datatable-extension.css}">
+<div th:replace="theme/app-style :: appStyle"></div>
+<body>
+<div th:replace="theme/loader :: loader"></div>
+<div class="page-wrapper compact-sidebar compact-small material-icon" id="pageWrapper">
+    <div th:replace="theme/header :: header"></div>
+    <div th:replace="theme/menu :: menu"></div>
+    <div class="page-body-wrapper">
+        <div th:replace="theme/menu-sidebar :: menuSidebar"></div>
+        <div class="page-body">
+            <div class="container-fluid">
+                <div class="page-title">
+                    <div class="row">
+                        <div class="col-12 col-sm-6 p-0">
+                            <h3>Transaction</h3>
+                        </div>
+                        <div class="col-12 col-sm-6 p-0">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item">
+                                    <a href="/">
+                                        <svg class="stroke-icon">
+                                            <use th:href="@{/assets/svg/icon-sprite.svg#breadcrumb-home}"></use>
+                                        </svg>
+                                    </a>
+                                </li>
+                                <li class="breadcrumb-item">Home</li>
+                                <li class="breadcrumb-item active">Transaction</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card">
+                            <div class="card-header pb-0 card-no-border">
+                                <h3>Users</h3>
+                                <div class="card-body badge-spacing">
+                                    <form class="theme-form">
+                                        <div class="input-group m-0 flex-nowrap">
+                                            <input class="typeahead form-control-plaintext" type="search" placeholder="Pixelstrap ..">
+                                            <button class="btn btn-secondary" type="button" data-bs-toggle="modal" data-original-title="test" data-bs-target="#exampleModal">
+                                                Add
+                                            </button>
+                                        </div>
+                                    </form>
+                                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModal" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <form th:action="@{/user/}" method="post" class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Create employee account</h5>
+                                                    <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="row g-3 floating-wrapper">
+                                                        <div class="col-12">
+                                                            <div class="form-floating">
+                                                                <input name="name" class="form-control" id="fName" type="text" placeholder="Name">
+                                                                <label for="fName">Name</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <div class="form-floating mb-3">
+                                                                <input name="email" class="form-control" id="fEmail" type="email" placeholder="name@example.com">
+                                                                <label for="fEmail">Email address</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Close</button>
+                                                    <button class="btn btn-primary">Send Email</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="order-history table-responsive wishlist">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                            <tr>
+                                                <th>Product</th>
+                                                <th>Price</th>
+                                                <th>Quantity</th>
+                                                <th>Action</th>
+                                                <th>Sub Total</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr th:each="productInfo : ${productInfos}">
+                                                <td class="btn-hover-effect">
+                                                    <img class="img-30 me-2" th:src="${productInfo.getProduct().getImage()}" alt="profile">
+                                                    <span th:text="${productInfo.getProduct().getName()}"></span>
+                                                </td>
+                                                <td th:text="${productInfo.getProduct().getPrice()}"></td>
+                                                <td>
+                                                    <fieldset class="qty-box">
+                                                        <div class="input-group">
+                                                            <input class="touchspin text-center b-r-0" type="text" th:value="${productInfo.getQuantity()}">
+                                                        </div>
+                                                    </fieldset>
+                                                </td>
+                                                <td><i data-feather="x-circle"></i></td>
+                                                <td th:text="${productInfo.getSubTotal()}"></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="3"></td>
+                                                <td class="total-amount">
+                                                    <h4 class="m-0 text-end"><span class="f-w-700">Total Price :</span></h4>
+                                                </td>
+                                                <td><span>$6935.00  </span></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-end" colspan="4"><a class="btn btn-secondary cart-btn-transform" href="product.html">continue shopping</a></td>
+                                                <td><a class="btn btn-success cart-btn-transform" href="checkout.html">check out</a></td>
+                                            </tr>
+                                            </tbody>
+                                            <tfoot>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div th:replace="theme/script :: script"></div>
+    <script th:src="@{/assets/js/datatable/datatables/jquery.dataTables.min.js}"></script>
+    <script th:src="@{/assets/js/datatable/datatable-extension/dataTables.buttons.min.js}"></script>
+    <script th:src="@{/assets/js/datatable/datatable-extension/jszip.min.js}"></script>
+    <script th:src="@{/assets/js/datatable/datatable-extension/buttons.colVis.min.js}"></script>
+    <script th:src="@{/assets/js/datatable/datatable-extension/pdfmake.min.js}"></script>
+    <script th:src="@{/assets/js/datatable/datatable-extension/vfs_fonts.js}"></script>
+    <script th:src="@{/assets/js/datatable/datatable-extension/dataTables.autoFill.min.js}"></script>
+    <script th:src="@{/assets/js/datatable/datatable-extension/dataTables.select.min.js}"></script>
+    <script th:src="@{/assets/js/datatable/datatable-extension/buttons.bootstrap4.min.js}"></script>
+    <script th:src="@{/assets/js/datatable/datatable-extension/buttons.html5.min.js}"></script>
+    <script th:src="@{/assets/js/datatable/datatable-extension/buttons.print.min.js}"></script>
+    <script th:src="@{/assets/js/datatable/datatable-extension/dataTables.bootstrap4.min.js}"></script>
+    <script th:src="@{/assets/js/datatable/datatable-extension/dataTables.responsive.min.js}"></script>
+    <script th:src="@{/assets/js/datatable/datatable-extension/responsive.bootstrap4.min.js}"></script>
+    <script th:src="@{/assets/js/datatable/datatable-extension/dataTables.keyTable.min.js}"></script>
+    <script th:src="@{/assets/js/datatable/datatable-extension/dataTables.colReorder.min.js}"></script>
+    <script th:src="@{/assets/js/datatable/datatable-extension/dataTables.fixedHeader.min.js}"></script>
+    <script th:src="@{/assets/js/datatable/datatable-extension/dataTables.rowReorder.min.js}"></script>
+    <script th:src="@{/assets/js/datatable/datatable-extension/dataTables.scroller.min.js}"></script>
+    <script th:src="@{/assets/js/datatable/datatable-extension/custom.js}"></script>
+    <script th:src="@{/assets/js/tooltip-init.js}"></script>
+    <script th:src="@{/assets/js/typeahead/handlebars.js}"></script>
+    <script th:src="@{/assets/js/typeahead/typeahead.bundle.js}"></script>
+    <div th:replace="theme/app-script :: appScript"></div>
+    <script>
+        $.ajax({
+            url: `/api/product/`,
+            success: function (products) {
+                $('.typeahead').typeahead(
+                    {
+
+                        hint: true,
+                        highlight: true,
+                        minLength: 1
+                    },
+                    {
+                        name: 'products',
+                        source: substringMatcher(products)
+                    }
+                );
+            },
+        })
+        const substringMatcher = function(strs) {
+            return function findMatches(q, cb) {
+                let matches, substringRegex;
+                matches = [];
+                const substrRegex = new RegExp(q, 'i');
+                $.each(strs, function(i, str) {
+                    if (substrRegex.test(str)) {
+                        matches.push(str);
+                    }
+                });
+                cb(matches);
+            };
+        };
+
+
+
+    </script>
+</body>
+</html>
