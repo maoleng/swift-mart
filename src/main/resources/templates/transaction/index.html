@@ -69,7 +69,7 @@
                                                 <td>
                                                     <div class="product-name"><a href="#" th:text="${productInfo.getProduct().getName()}"></a></div>
                                                 </td>
-                                                <td th:text="${productInfo.getProduct().getPrice()}"></td>
+                                                <td class="td-money" th:text="${productInfo.getProduct().getPrice()}"></td>
                                                 <td>
                                                     <fieldset class="qty-box">
                                                         <div class="input-group">
@@ -77,8 +77,8 @@
                                                         </div>
                                                     </fieldset>
                                                 </td>
-                                                <td><i data-feather="x-circle"></i></td>
-                                                <td>10000</td>
+                                                <td><i th:data-name="${productInfo.getProduct().getName()}" class="btn-remove_product" data-feather="x-circle"></i></td>
+                                                <td class="td-money" th:text="${productInfo.getSubTotal()}"></td>
                                             </tr>
                                             <tr>
                                                 <td colspan="4"></td>
@@ -133,12 +133,28 @@
     <script th:src="@{/assets/js/typeahead/typeahead.bundle.js}"></script>
     <div th:replace="theme/app-script :: appScript"></div>
     <script>
-
+        formatVNDByClass("td-money")
+        $('.btn-remove_product').on('click', function () {
+            const tr = $(this).closest('tr')
+            $.ajax({
+                url: `/api/transaction/add-to-cart?name=${$(this).data('name')}&qty=0`,
+                method: 'POST',
+                success: function () {
+                    tr.remove()
+                }
+            })
+        })
         $('.qty-box').on('click', function () {
             const iQty = $(this).find('input')
+            const tdMoney = $(this).closest('tr').find('.td-money')
+            const tr = $(this).closest('tr')
             $.ajax({
-                url: `/transaction/add-to-cart?name=${iQty.data('name')}&qty=${iQty.val()}`,
+                url: `/api/transaction/add-to-cart?name=${iQty.data('name')}&qty=${iQty.val()}`,
                 method: 'POST',
+                success: function (e) {
+                    e.quantity === 0 ? tr.remove() : tdMoney.text(e.subTotal)
+                    formatVNDByClass("td-money")
+                }
             })
         })
 
@@ -146,7 +162,7 @@
             const iSearch = $('#i-search')
 
             $.ajax({
-                url: `/transaction/add-to-cart?name=${iSearch.val()}&type=plus`,
+                url: `/api/transaction/add-to-cart?name=${iSearch.val()}&type=plus`,
                 method: 'POST',
                 success: function () {
                     window.location.reload()

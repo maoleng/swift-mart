@@ -12,4 +12,8 @@ public class CartProductInfo
     private Product product;
     private int quantity;
 
+    public Double getSubTotal()
+    {
+        return quantity * product.getPrice();
+    }
 }

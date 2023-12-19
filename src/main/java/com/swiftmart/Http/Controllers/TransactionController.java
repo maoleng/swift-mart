@@ -63,37 +63,4 @@ public class TransactionController extends BaseController
         return "transaction/index";
     }
 
-    @PostMapping("/add-to-cart")
-    public String addToCart(HttpServletRequest request)
-    {
-        HttpSession session = request.getSession();
-        TransactionInfo transaction = (TransactionInfo) session.getAttribute("transaction");
-        if (transaction == null) transaction = new TransactionInfo(new ArrayList<>());
-
-        Product product = productService.findByName(request.getParameter("name"));
-        List<CartProductInfo> productInfos = transaction.getCartProducts();
-
-        CartProductInfo productInfo = productInfos.stream()
-                .filter(cartProductInfo -> cartProductInfo.getProduct().equals(product))
-                .findFirst()
-                .orElse(null);
-        if (productInfo == null) {
-            CartProductInfo newCartItem = new CartProductInfo(product, 1);
-            productInfos.add(newCartItem);
-        } else {
-            int qty = 0;
-            if (request.getParameter("qty") != null) {
-                qty = Integer.parseInt(request.getParameter("qty"));
-            } else if (request.getParameter("type").equals("plus")) {
-                qty = productInfo.getQuantity() + qty;
-            }
-            productInfo.setQuantity(qty);
-        }
-        transaction.setCartProducts(productInfos);
-
-        session.setAttribute("transaction", transaction);
-
-        return "index";
-    }
-
 }
