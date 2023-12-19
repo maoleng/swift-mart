@@ -85,7 +85,7 @@
                                                 <td class="total-amount">
                                                     <h4 class="m-0 text-end"><span class="f-w-700">Total Price :</span></h4>
                                                 </td>
-                                                <td><span>$6935.00  </span></td>
+                                                <td><span class="td-money" id="span-total" th:text="${transaction.getTotal()}"></span></td>
                                             </tr>
                                             <tr>
                                                 <td class="text-end" colspan="5"><a class="btn btn-secondary cart-btn-transform" href="product.html">continue shopping</a></td>
@@ -139,21 +139,23 @@
             $.ajax({
                 url: `/api/transaction/add-to-cart?name=${$(this).data('name')}&qty=0`,
                 method: 'POST',
-                success: function () {
+                success: function (e) {
                     tr.remove()
+                    $('#span-total').text(formatVND(e.transaction.total))
                 }
             })
         })
         $('.qty-box').on('click', function () {
             const iQty = $(this).find('input')
+            const name = iQty.data('name')
             const tdMoney = $(this).closest('tr').find('.td-money')
             const tr = $(this).closest('tr')
             $.ajax({
-                url: `/api/transaction/add-to-cart?name=${iQty.data('name')}&qty=${iQty.val()}`,
+                url: `/api/transaction/add-to-cart?name=${name}&qty=${iQty.val()}`,
                 method: 'POST',
                 success: function (e) {
-                    e.quantity === 0 ? tr.remove() : tdMoney.text(e.subTotal)
-                    formatVNDByClass("td-money")
+                    JSON.stringify(e.transaction).includes(name) ? tdMoney.text(formatVND(e.productInfo.subTotal)) : tr.remove()
+                    $('#span-total').text(formatVND(e.transaction.total))
                 }
             })
         })

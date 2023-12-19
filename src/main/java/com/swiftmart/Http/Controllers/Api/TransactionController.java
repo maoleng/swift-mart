@@ -19,7 +19,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController("apiTransactionController")
 @RequestMapping(value = "/api/transaction")
@@ -66,7 +68,11 @@ public class TransactionController extends BaseController
         transaction.setCartProducts(productInfos);
         session.setAttribute("transaction", transaction);
 
-        return productInfo;
+        Map<String, Object> data = new HashMap<>();
+        data.put("transaction", transaction);
+        data.put("productInfo", productInfo);
+
+        return data;
     }
 
 }

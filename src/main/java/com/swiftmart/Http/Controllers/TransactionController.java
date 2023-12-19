@@ -42,6 +42,7 @@ public class TransactionController extends BaseController
 
         TransactionInfo transaction = (TransactionInfo) session.getAttribute("transaction");
         if (transaction == null) transaction = new TransactionInfo(new ArrayList<>());
+        model.addAttribute("transaction", transaction);
 
         if (state == null) {
             List<CartProductInfo> productInfos = transaction.getCartProducts();

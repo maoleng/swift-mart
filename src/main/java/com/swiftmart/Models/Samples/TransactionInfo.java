@@ -12,4 +12,9 @@ public class TransactionInfo
 
     private List<CartProductInfo> cartProducts;
 
+    public Double getTotal()
+    {
+        return cartProducts.stream().mapToDouble(CartProductInfo::getSubTotal).sum();
+    }
+
 }
