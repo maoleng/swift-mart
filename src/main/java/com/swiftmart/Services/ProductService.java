@@ -55,6 +55,11 @@ public class ProductService extends BaseService
         return repository.getProductRepository().findBy_id(id);
     }
 
+    public Product findByName(String name)
+    {
+        return repository.getProductRepository().findByName(name);
+    }
+
     public void update(String id, ProductRequest request)
     {
         Product product = findBy_id(id);

@@ -1,22 +1,15 @@
 package com.swiftmart.Models.Samples;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.util.List;
 
 @Data
+@AllArgsConstructor
 public class TransactionInfo
 {
 
     private List<CartProductInfo> cartProducts;
-    private Double total;
 
-    public Double getTotal()
-    {
-        cartProducts.forEach((CartProductInfo productInfo) -> {
-            total += productInfo.getSubTotal();
-        });
-
-        return total;
-    }
 }

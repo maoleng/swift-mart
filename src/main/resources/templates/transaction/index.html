@@ -43,49 +43,20 @@
                                 <div class="card-body badge-spacing">
                                     <form class="theme-form">
                                         <div class="input-group m-0 flex-nowrap">
-                                            <input class="typeahead form-control-plaintext" type="search" placeholder="Pixelstrap ..">
-                                            <button class="btn btn-secondary" type="button" data-bs-toggle="modal" data-original-title="test" data-bs-target="#exampleModal">
+                                            <input id="i-search" class="typeahead form-control-plaintext" type="search" placeholder="Pixelstrap ..">
+                                            <button id="btn-add" class="btn btn-secondary" type="button">
                                                 Add
                                             </button>
                                         </div>
                                     </form>
-                                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModal" aria-hidden="true">
-                                        <div class="modal-dialog modal-dialog-centered" role="document">
-                                            <form th:action="@{/user/}" method="post" class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title">Create employee account</h5>
-                                                    <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <div class="row g-3 floating-wrapper">
-                                                        <div class="col-12">
-                                                            <div class="form-floating">
-                                                                <input name="name" class="form-control" id="fName" type="text" placeholder="Name">
-                                                                <label for="fName">Name</label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-12">
-                                                            <div class="form-floating mb-3">
-                                                                <input name="email" class="form-control" id="fEmail" type="email" placeholder="name@example.com">
-                                                                <label for="fEmail">Email address</label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Close</button>
-                                                    <button class="btn btn-primary">Send Email</button>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
                                 </div>
                                 <div class="card-body">
                                     <div class="order-history table-responsive wishlist">
                                         <table class="table table-bordered">
                                             <thead>
                                             <tr>
-                                                <th>Product</th>
+                                                <th>Product Image</th>
+                                                <th>Product Name</th>
                                                 <th>Price</th>
                                                 <th>Quantity</th>
                                                 <th>Action</th>
@@ -94,30 +65,30 @@
                                             </thead>
                                             <tbody>
                                             <tr th:each="productInfo : ${productInfos}">
-                                                <td class="btn-hover-effect">
-                                                    <img class="img-30 me-2" th:src="${productInfo.getProduct().getImage()}" alt="profile">
-                                                    <span th:text="${productInfo.getProduct().getName()}"></span>
+                                                <td><img class="img-fluid img-90" th:src="${productInfo.getProduct().getImage()}" alt="#"></td>
+                                                <td>
+                                                    <div class="product-name"><a href="#" th:text="${productInfo.getProduct().getName()}"></a></div>
                                                 </td>
                                                 <td th:text="${productInfo.getProduct().getPrice()}"></td>
                                                 <td>
                                                     <fieldset class="qty-box">
                                                         <div class="input-group">
-                                                            <input class="touchspin text-center b-r-0" type="text" th:value="${productInfo.getQuantity()}">
+                                                            <input th:data-name="${productInfo.getProduct().getName()}" readonly class="touchspin text-center b-r-0" type="text" th:value="${productInfo.getQuantity()}">
                                                         </div>
                                                     </fieldset>
                                                 </td>
                                                 <td><i data-feather="x-circle"></i></td>
-                                                <td th:text="${productInfo.getSubTotal()}"></td>
+                                                <td>10000</td>
                                             </tr>
                                             <tr>
-                                                <td colspan="3"></td>
+                                                <td colspan="4"></td>
                                                 <td class="total-amount">
                                                     <h4 class="m-0 text-end"><span class="f-w-700">Total Price :</span></h4>
                                                 </td>
                                                 <td><span>$6935.00  </span></td>
                                             </tr>
                                             <tr>
-                                                <td class="text-end" colspan="4"><a class="btn btn-secondary cart-btn-transform" href="product.html">continue shopping</a></td>
+                                                <td class="text-end" colspan="5"><a class="btn btn-secondary cart-btn-transform" href="product.html">continue shopping</a></td>
                                                 <td><a class="btn btn-success cart-btn-transform" href="checkout.html">check out</a></td>
                                             </tr>
                                             </tbody>
@@ -155,10 +126,35 @@
     <script th:src="@{/assets/js/datatable/datatable-extension/dataTables.scroller.min.js}"></script>
     <script th:src="@{/assets/js/datatable/datatable-extension/custom.js}"></script>
     <script th:src="@{/assets/js/tooltip-init.js}"></script>
+    <script th:src="@{/assets/js/touchspin/vendors.min.js}"></script>
+    <script th:src="@{/assets/js/touchspin/touchspin.js}"></script>
+    <script th:src="@{/assets/js/touchspin/input-groups.min.js}"></script>
     <script th:src="@{/assets/js/typeahead/handlebars.js}"></script>
     <script th:src="@{/assets/js/typeahead/typeahead.bundle.js}"></script>
     <div th:replace="theme/app-script :: appScript"></div>
     <script>
+
+        $('.qty-box').on('click', function () {
+            const iQty = $(this).find('input')
+            $.ajax({
+                url: `/transaction/add-to-cart?name=${iQty.data('name')}&qty=${iQty.val()}`,
+                method: 'POST',
+            })
+        })
+
+        $('#btn-add').on('click', function () {
+            const iSearch = $('#i-search')
+
+            $.ajax({
+                url: `/transaction/add-to-cart?name=${iSearch.val()}&type=plus`,
+                method: 'POST',
+                success: function () {
+                    window.location.reload()
+                }
+            })
+        })
+
+
         $.ajax({
             url: `/api/product/`,
             success: function (products) {
