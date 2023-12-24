@@ -89,7 +89,6 @@
                                                 <td th:text="${order.getTotal()}" class="td-price"></td>
                                                 <td th:text="${order.getPaymentMethod()}"></td>
                                                 <td th:text="${order.getCreatedAt()?.toLocaleString()}"></td>
-<!--                                                <a th:data-id="${order.get_id()}" data-bs-toggle="modal" data-bs-target="#modal-transaction_detail" class="btn-show btn btn-pill btn-outline-info btn-air-info btn-sm m-r-5" type="button">View</a>-->
                                             </tr>
                                             </tbody>
                                             <tfoot>
@@ -116,8 +115,8 @@
                                     <div class="payment-wrapper">
                                         <div class="payment-first">
                                             <div class="form-check radio radio-primary">
-                                                <input class="form-check-input" id="ptm11" type="radio" name="radio1" value="option1">
-                                                <label class="form-check-label mb-0" for="ptm11">BOB</label>
+                                                <input class="form-check-input" id="ptm11" type="radio" name="radio1" value="option1" checked>
+                                                <label class="form-check-label mb-0" for="ptm11">Domestic card and bank account</label>
                                             </div>
                                         </div>
                                         <div class="payment-second"><img class="img-fluid" th:src="@{/assets/images/ecommerce/card.png}" alt="card"></div>
@@ -125,7 +124,7 @@
                                     <div class="payment-wrapper">
                                         <div class="payment-first">
                                             <div class="form-check radio radio-primary">
-                                                <input class="form-check-input" id="ptm22" type="radio" name="radio1" value="option1" checked="">
+                                                <input class="form-check-input" id="ptm22" type="radio" name="radio1" value="option1">
                                                 <label class="form-check-label mb-0" for="ptm22">MasterCard</label>
                                             </div>
                                         </div>
@@ -183,47 +182,39 @@
     <div th:replace="theme/app-script :: appScript"></div>
     <script>
         formatVNDByClass("h-money")
-        $('table').DataTable();
+
+        const iId = $('#iId')
+        const iName = $('#iName')
+        const iAddress = $('#iAddress')
+        const table = new DataTable('table')
         $('#iPhone').on('change', async function () {
+            table.clear().draw()
+            iId.val('')
+            iName.val('')
+            iAddress.val('')
+
             const phone = $(this).val()
             const user = await $.ajax({
                 url: `/api/user/?phone=${phone}`,
             })
-            if (user == null) return
-            $('#iId').val(user._id)
-            $('#iName').val(user.name)
-            $('#iAddress').val(user.address)
+            if (! user) return
+            iId.val(user._id)
+            iName.val(user.name)
+            iAddress.val(user.address)
 
+            table.clear().draw()
             const orders = await $.ajax({
                 url: `/api/order/?userId=${user._id}`,
-                success: function (e) {
-                    if (e == null) return
-                    $('#iName').val(e.name)
-                    $('#iAddress').val(e.address)
-                }
             })
-            $("tbody").empty()
             orders.forEach(function (order) {
-                $("tbody").append(`
-                    <td>a</td>
-                    <td>a</td>
-                    <td>a</td>
-                    <td>a</td>
-                `)
+                table.row.add([
+                    order.statusCard,
+                    formatVND(order.total),
+                    order.paymentMethod,
+                    order.createdAt,
+                ]).draw(false)
             })
-
-            const response = $.ajax({
-                url: `/api/transaction/fill-user-info?userId=${user._id}`,
-                success: function (e) {
-                    if (e == null) return
-                    $('#iName').val(e.name)
-                    $('#iAddress').val(e.address)
-                }
-            })
-
-
         })
-
 
     </script>
 </body>

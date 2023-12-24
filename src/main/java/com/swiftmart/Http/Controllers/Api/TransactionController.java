@@ -75,17 +75,4 @@ public class TransactionController extends BaseController
         return data;
     }
 
-    @PostMapping(value = "/fill-user-info")
-    public String fillUserInfo(HttpServletRequest request)
-    {
-        HttpSession session = request.getSession();
-        TransactionInfo transaction = (TransactionInfo) session.getAttribute("transaction");
-        if (transaction == null) transaction = new TransactionInfo(new ArrayList<>(), new User());
-
-        transaction.setUser(userService.findBy_id(request.getParameter("userId")));
-        session.setAttribute("transaction", transaction);
-
-        return "redirect:/transaction/";
-    }
-
 }
