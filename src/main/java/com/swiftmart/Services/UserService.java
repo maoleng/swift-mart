@@ -41,6 +41,11 @@ public class UserService extends BaseService
         return repository.getUserRepository().findBy_id(id);
     }
 
+    public User findByPhone(String phone)
+    {
+        return repository.getUserRepository().findByPhone(phone);
+    }
+
     public List<User> getUsersWithLocations(UserRole ...roles) {
         List<User> users = repository.getUserRepository().findByRoleIn(Stream.of(roles).map(Enum::name).toList());
 

@@ -1,6 +1,6 @@
 package com.swiftmart.Http.Controllers;
 
-import com.swiftmart.Models.Product;
+import com.swiftmart.Models.Order;
 import com.swiftmart.Models.Samples.CartProductInfo;
 import com.swiftmart.Models.Samples.PaymentInfo;
 import com.swiftmart.Models.Samples.TransactionInfo;
@@ -26,9 +26,10 @@ public class TransactionController extends BaseController
 {
 
     @Autowired
-    public TransactionController(UserService userService, ProductService productService) {
+    public TransactionController(UserService userService, ProductService productService, OrderService orderService) {
         this.userService = userService;
         this.productService = productService;
+        this.orderService = orderService;
     }
 
     @GetMapping(value = "/")
@@ -41,7 +42,7 @@ public class TransactionController extends BaseController
 
 
         TransactionInfo transaction = (TransactionInfo) session.getAttribute("transaction");
-        if (transaction == null) transaction = new TransactionInfo(new ArrayList<>());
+        if (transaction == null) transaction = new TransactionInfo(new ArrayList<>(), new User());
         model.addAttribute("transaction", transaction);
 
         if (state == null) {
@@ -51,9 +52,16 @@ public class TransactionController extends BaseController
             return "transaction/index";
         }
 
-        User customer = (User) session.getAttribute("customer");
-        if (customer == null) {
-            return "transaction/user-info";
+        if (state.equals("fill-user-info")) {
+            User user = transaction.getUser();
+            List<Order> orders = new ArrayList<>();
+            if (user.get_id() != null) {
+                orders = orderService.getOrdersByUserId(user.get_id());
+            }
+            model.addAttribute("orders", orders);
+            model.addAttribute("user", user);
+
+            return "transaction/fill-user-info";
         }
 
         PaymentInfo payment = (PaymentInfo) session.getAttribute("payment");
@@ -63,5 +71,15 @@ public class TransactionController extends BaseController
 
         return "transaction/index";
     }
+
+    @GetMapping(value = "/next")
+    public String next(HttpServletRequest request)
+    {
+        request.getSession().setAttribute("state", request.getParameter("step"));
+
+        return "redirect:/transaction/";
+    }
+
+
 
 }

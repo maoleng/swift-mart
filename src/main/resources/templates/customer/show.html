@@ -109,7 +109,7 @@
                                                 <td th:utext="${order.getStatusCard()}"></td>
                                                 <td th:text="${order.getTotal()}" class="td-price"></td>
                                                 <td th:text="${order.getPaymentMethod()}"></td>
-                                                <td th:text="${user.getCreatedAt()?.toLocaleString()}"></td>
+                                                <td th:text="${order.getCreatedAt()?.toLocaleString()}"></td>
                                                 <td>
                                                     <a th:data-id="${order.get_id()}" data-bs-toggle="modal" data-bs-target="#modal-transaction_detail" class="btn-show btn btn-pill btn-outline-info btn-air-info btn-sm m-r-5" type="button">View</a>
                                                 </td>
@@ -181,7 +181,7 @@
         $('.btn-show').on('click', function () {
             const id = $(this).data('id')
             $.ajax({
-                url: `/order/${id}`,
+                url: `/api/order/${id}`,
                 success: function (e) {
                     const tbd = $('#tbody-transaction')
                     tbd.empty()

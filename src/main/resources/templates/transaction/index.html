@@ -78,7 +78,7 @@
                                                     </fieldset>
                                                 </td>
                                                 <td><i th:data-name="${productInfo.getProduct().getName()}" class="btn-remove_product" data-feather="x-circle"></i></td>
-                                                <td class="td-money" th:text="${productInfo.getSubTotal()}"></td>
+                                                <td class="td-money td-subtotal" th:text="${productInfo.getSubTotal()}"></td>
                                             </tr>
                                             <tr>
                                                 <td colspan="4"></td>
@@ -88,8 +88,8 @@
                                                 <td><span class="td-money" id="span-total" th:text="${transaction.getTotal()}"></span></td>
                                             </tr>
                                             <tr>
-                                                <td class="text-end" colspan="5"><a class="btn btn-secondary cart-btn-transform" href="product.html">continue shopping</a></td>
-                                                <td><a class="btn btn-success cart-btn-transform" href="checkout.html">check out</a></td>
+                                                <td class="text-end" colspan="5"></td>
+                                                <td><a class="btn btn-success cart-btn-transform" th:href="@{/transaction/next?step=fill-user-info}">Continue</a></td>
                                             </tr>
                                             </tbody>
                                             <tfoot>
@@ -148,13 +148,13 @@
         $('.qty-box').on('click', function () {
             const iQty = $(this).find('input')
             const name = iQty.data('name')
-            const tdMoney = $(this).closest('tr').find('.td-money')
+            const tdSubtotal = $(this).closest('tr').find('.td-subtotal')
             const tr = $(this).closest('tr')
             $.ajax({
                 url: `/api/transaction/add-to-cart?name=${name}&qty=${iQty.val()}`,
                 method: 'POST',
                 success: function (e) {
-                    JSON.stringify(e.transaction).includes(name) ? tdMoney.text(formatVND(e.productInfo.subTotal)) : tr.remove()
+                    e.productInfo.quantity === 0 ? tr.remove() : tdSubtotal.text(formatVND(e.productInfo.subTotal))
                     $('#span-total').text(formatVND(e.transaction.total))
                 }
             })

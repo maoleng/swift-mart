@@ -41,7 +41,7 @@ public class TransactionController extends BaseController
 
         HttpSession session = request.getSession();
         TransactionInfo transaction = (TransactionInfo) session.getAttribute("transaction");
-        if (transaction == null) transaction = new TransactionInfo(new ArrayList<>());
+        if (transaction == null) transaction = new TransactionInfo(new ArrayList<>(), new User());
 
         Product product = productService.findByName(request.getParameter("name"));
         List<CartProductInfo> productInfos = transaction.getCartProducts();
@@ -73,6 +73,19 @@ public class TransactionController extends BaseController
         data.put("productInfo", productInfo);
 
         return data;
+    }
+
+    @PostMapping(value = "/fill-user-info")
+    public String fillUserInfo(HttpServletRequest request)
+    {
+        HttpSession session = request.getSession();
+        TransactionInfo transaction = (TransactionInfo) session.getAttribute("transaction");
+        if (transaction == null) transaction = new TransactionInfo(new ArrayList<>(), new User());
+
+        transaction.setUser(userService.findBy_id(request.getParameter("userId")));
+        session.setAttribute("transaction", transaction);
+
+        return "redirect:/transaction/";
     }
 
 }

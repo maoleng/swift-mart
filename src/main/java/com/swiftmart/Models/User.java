@@ -36,7 +36,10 @@ public class User
 
     public String getStatusCard()
     {
-        String cardClass ="";
+        if (status == null) {
+            return "";
+        }
+        String cardClass = "";
         if (status.equals(UserStatus.ACTIVE.name())) {
             cardClass = "badge-success";
         } else if (status.equals(UserStatus.INACTIVE.name())) {
