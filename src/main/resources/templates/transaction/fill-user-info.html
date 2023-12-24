@@ -149,7 +149,7 @@
                                         <div class="payment-second"><img class="img-fluid" th:src="@{/assets/images/ecommerce/visa.png}" alt="card"></div>
                                     </div>
                                 </div>
-                                <a th:href="@{/transaction/next?step=payment}" id="btn-next" class="mt-3 btn btn-pill btn-air-info btn-info-gradien" type="button">Checkout</a>
+                                <button id="btn-next" class="mt-3 btn btn-pill btn-air-info btn-info-gradien" type="button">Checkout</button>
                             </div>
                         </div>
                     </div>
@@ -188,19 +188,23 @@
         const iAddress = $('#iAddress')
         const table = new DataTable('table')
 
-        $('#btn-next').on('click', function (e) {
+        const btnNext = $('#btn-next')
+        btnNext.on('click', async function (e) {
             if (! iId.val()) {
                 swal({
                     title: "Error",
                     text: 'Please fill user information',
                     icon: "error",
                 })
-                e.preventDefault()
+                return
             }
-            $.ajax({
+            btnNext.attr('disabled')
+            btnNext.text('Preparing payment...')
+            await $.ajax({
                 url: `/api/transaction/fill-user-info?userId=${iId.val()}`,
                 method: 'POST',
             })
+            window.location.href = '/transaction/next?step=payment'
         })
 
         $('#iPhone').on('change', async function () {
