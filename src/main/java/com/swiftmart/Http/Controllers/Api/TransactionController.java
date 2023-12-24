@@ -82,7 +82,9 @@ public class TransactionController extends BaseController
         TransactionInfo transaction = (TransactionInfo) session.getAttribute("transaction");
         if (transaction == null) transaction = new TransactionInfo(new ArrayList<>(), new User());
 
-        transaction.setUser(userService.findBy_id(request.getParameter("userId")));
+        User user = userService.findBy_id(request.getParameter("userId"));
+        if (user == null) return false;
+        transaction.setUser(user);
         session.setAttribute("transaction", transaction);
 
         return true;

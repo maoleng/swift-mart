@@ -44,7 +44,7 @@
                             <div class="card-body">
                                 <div class="card-wrapper border rounded-3">
                                     <div class="row g-3 floating-wrapper">
-                                        <input type="hidden" id="iId">
+                                        <input th:value="${user.get_id()}" type="hidden" id="iId">
                                         <div class="col-12">
                                             <div class="form-floating mb-3">
                                                 <input name="phone" th:value="${user.getPhone()}" class="form-control" id="iPhone" type="text" placeholder="Phone">
@@ -149,7 +149,7 @@
                                         <div class="payment-second"><img class="img-fluid" th:src="@{/assets/images/ecommerce/visa.png}" alt="card"></div>
                                     </div>
                                 </div>
-                                <button id="btn-next" class="mt-3 btn btn-pill btn-air-info btn-info-gradien" type="button">Checkout</button>
+                                <a th:href="@{/transaction/next?step=payment}" id="btn-next" class="mt-3 btn btn-pill btn-air-info btn-info-gradien" type="button">Checkout</a>
                             </div>
                         </div>
                     </div>
