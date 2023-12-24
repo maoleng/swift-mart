@@ -29,7 +29,10 @@ public class Order
 
     public String getStatusCard()
     {
-        String cardClass ="";
+        if (status == null) {
+            return "";
+        }
+        String cardClass = "";
         if (status.equals(OrderStatus.SUCCESS.name())) {
             cardClass = "badge-success";
         } else if (status.equals(OrderStatus.FAILED.name())) {

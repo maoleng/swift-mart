@@ -14,19 +14,19 @@
         <div class="page-body">
             <div class="container-fluid pt-3">
                 <div class="row">
-                    <div class="col-xl-3">
+                    <div class="col-xl-4">
                         <div class="card">
                             <div class="card-body">
                                 <div class="card-wrapper border rounded-3">
                                     <div class="pt-lg-5 row g-3 floating-wrapper">
                                         <h2>Order is expired in</h2>
-                                        <h1>09:59</h1>
+                                        <h1 id="clock" th:data-time="${transaction.order.getCreatedAt().getTime()}"></h1>
 
                                         <h2 class="pt-5">Total</h2>
-                                        <h3>1,000,000 VND</h3>
+                                        <h3 class="h-money" th:text="${transaction.getTotal()}"></h3>
 
                                         <h2 class="pt-5">Transaction ID</h2>
-                                        <h3>1561651b6df1b65f1d</h3>
+                                        <h3 th:text="${transaction.order.get_id()}"></h3>
 
                                         <div class="pb-lg-5 mx-auto">
                                             <a th:href="@{/transaction/next?step=payment}" class="mt-3 btn btn-pill btn-air-info btn-info-gradien" type="button">Back</a>
@@ -36,12 +36,12 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-xl-5">
+                    <div class="col-xl-6">
                         <div class="card">
                             <div class="card-header pb-0 card-no-border">
                                 <div class="card-body">
                                     <h2 align="center">Scan QR for payment</h2>
-                                    <img class="mx-auto p-5 d-block w-75 center" src="https://api.vietqr.io/image/970415-0984124239-8uTkd8i.jpg?amount=30000&addInfo=xin%20chao%20cac%20ban">
+                                    <img class="mx-auto p-5 d-block w-75 center" th:src="${transaction.getPaymentUrl()}">
                                     <p align="center">Use Momo or VNPay or any mobile banking application that support QR code to scan</p>
                                     <p align="center">
                                         <img height="20px" src="https://media.tenor.com/JeNT_qdjEYcAAAAj/loading.gif" alt="">
@@ -58,7 +58,30 @@
     <div th:replace="theme/script :: script"></div>
     <div th:replace="theme/app-script :: appScript"></div>
     <script>
+        formatVNDByClass('h-money')
 
+        const clock = $('#clock')
+        const startTime = new Date(clock.data('time')).getTime();
+        const endTime = new Date(startTime + 10 * 60 * 1000).getTime();
+
+        setInterval(updateCountdown, 1000);
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const timeDifference = endTime - now;
+
+            if (timeDifference > 0) {
+                const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
+
+                const formattedMinutes = minutes < 10 ? `0${minutes}` : `${minutes}`;
+                const formattedSeconds = seconds < 10 ? `0${seconds}` : `${seconds}`;
+
+                clock.text(`${formattedMinutes}:${formattedSeconds}`);
+            } else {
+                clock.text('00:00');
+            }
+        }
 
 
     </script>

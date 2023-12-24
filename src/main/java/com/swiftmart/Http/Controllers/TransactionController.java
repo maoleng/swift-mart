@@ -2,7 +2,6 @@ package com.swiftmart.Http.Controllers;
 
 import com.swiftmart.Models.Order;
 import com.swiftmart.Models.Samples.CartProductInfo;
-import com.swiftmart.Models.Samples.PaymentInfo;
 import com.swiftmart.Models.Samples.TransactionInfo;
 import com.swiftmart.Models.User;
 import com.swiftmart.Services.OrderService;
@@ -14,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.ArrayList;
@@ -42,7 +40,7 @@ public class TransactionController extends BaseController
 
 
         TransactionInfo transaction = (TransactionInfo) session.getAttribute("transaction");
-        if (transaction == null) transaction = new TransactionInfo(new ArrayList<>(), new User());
+        if (transaction == null) transaction = new TransactionInfo(new ArrayList<>(), new User(), new Order());
         model.addAttribute("transaction", transaction);
 
         if (state == null) {
@@ -64,8 +62,9 @@ public class TransactionController extends BaseController
             return "transaction/fill-user-info";
         }
 
-        PaymentInfo payment = (PaymentInfo) session.getAttribute("payment");
-        if (payment == null) {
+        if (state.equals("payment")) {
+            model.addAttribute("transaction", transaction);
+
             return "transaction/payment";
         }
 
