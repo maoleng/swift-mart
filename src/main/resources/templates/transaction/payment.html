@@ -64,7 +64,36 @@
         const startTime = new Date(clock.data('time')).getTime();
         const endTime = new Date(startTime + 10 * 60 * 1000).getTime();
 
-        setInterval(updateCountdown, 1000);
+        const iUpdateCountdown = setInterval(updateCountdown, 1000);
+        const iValidateTransaction = setInterval(validateTransaction, 1000);
+
+        async function validateTransaction()
+        {
+            const response = await $.ajax({
+                url: '/api/transaction/validate',
+                method: 'POST',
+            })
+            if (response.status === false) {
+                clearInterval(iValidateTransaction)
+                clearInterval(iUpdateCountdown)
+                await swal({
+                    title: "Error",
+                    text: 'Payment Timeout',
+                    icon: "error",
+                })
+                window.location.reload()
+            }
+            if (response.status === true) {
+                clearInterval(iUpdateCountdown)
+                clearInterval(iValidateTransaction)
+                await swal({
+                    title: "Success",
+                    text: 'Payment successfully',
+                    icon: "success",
+                })
+                window.location.reload()
+            }
+        }
 
         function updateCountdown()
         {

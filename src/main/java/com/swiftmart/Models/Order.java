@@ -7,6 +7,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.Calendar;
 import java.util.Date;
 
 @Document("orders")
@@ -40,6 +41,20 @@ public class Order
         }
 
         return "<span class=\"badge rounded-pill " + cardClass + "\">" + this.status + "</span>";
+    }
+
+    public boolean isAfter10MinsFromCreatedAt()
+    {
+        Date createdAt = this.getCreatedAt();
+        if (createdAt == null) {
+            return false;
+        }
+        Calendar now = Calendar.getInstance();
+        Calendar createdAtPlus10Mins = Calendar.getInstance();
+        createdAtPlus10Mins.setTime(createdAt);
+        createdAtPlus10Mins.add(Calendar.MINUTE, 10);
+
+        return now.after(createdAtPlus10Mins);
     }
 
 }
