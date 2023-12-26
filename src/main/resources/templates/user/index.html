@@ -40,7 +40,7 @@
                         <div class="card">
                             <div class="card-header pb-0 card-no-border">
                                 <h3>Users</h3>
-                                <div class="card-body badge-spacing">
+                                <div th:if="${session.authed.getRole() == 'ADMIN' || session.authed.getRole() == 'MANAGER'}" class="card-body badge-spacing">
                                     <button class="btn btn-secondary" type="button" data-bs-toggle="modal" data-original-title="test" data-bs-target="#exampleModal">
                                         Add User
                                     </button>
