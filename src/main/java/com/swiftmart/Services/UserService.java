@@ -25,6 +25,10 @@ import org.springframework.data.mongodb.core.query.Query;
 public class UserService extends BaseService
 {
 
+
+    @Value("${app.salt}")
+    private String salt;
+
     BCryptPasswordEncoder pe = new BCryptPasswordEncoder();
 
     public UserService(Repository repository, MongoTemplate mongoTemplate) {
@@ -92,6 +96,8 @@ public class UserService extends BaseService
         user.setStatus(UserStatus.INACTIVE.name());
         user.setSentAt(new Date());
         user.setCreatedAt(new Date());
+        user = repository.getUserRepository().save(user);
+        user.setLoginUrl(user.getLoginCode(salt));
         repository.getUserRepository().save(user);
     }
 

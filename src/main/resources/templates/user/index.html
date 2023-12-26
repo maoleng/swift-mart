@@ -145,7 +145,7 @@
                                                     <li th:if="${user.getStatus() == 'ACTIVE' && user.getRole() == 'SALE'}" class="edit">
                                                         <button th:data-id="${user.get_id()}" th:data-text="'You will lock ' + ${user.getName()}" class="btn-toggle_lock" type="button"><i class="icon-lock"></i></button>
                                                     </li>
-                                                    <li th:if="${user.getStatus() == 'DISABLED'}" class="edit">
+                                                    <li th:if="${user.getStatus() == 'DISABLE'}" class="edit">
                                                         <button th:data-id="${user.get_id()}" th:data-text="'You will unlock ' + ${user.getName()}" class="btn-toggle_lock" type="button"><i class="icon-unlock"></i></button>
                                                     </li>
                                                     <li th:if="${user.getStatus() == 'INACTIVE'}" class="edit"> <button href="#"><i class="icon-share-alt"></i></button></li>

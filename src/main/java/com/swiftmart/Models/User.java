@@ -34,6 +34,8 @@ public class User
     private Date sentAt;
     private Date createdAt;
 
+    private String loginUrl;
+
     public String getStatusCard()
     {
         if (status == null) {
