@@ -14,7 +14,7 @@ public class DashboardController extends BaseController
     {
         String c = authorize(); if (c != null) return c;
 
-        return "index";
+        return "redirect:/transaction/";
     }
 
 }

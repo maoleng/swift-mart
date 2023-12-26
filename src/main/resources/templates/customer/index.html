@@ -55,7 +55,6 @@
                                             <tbody>
                                             <tr th:each="user : ${users}">
                                                 <td class="btn-hover-effect">
-                                                    <img class="img-30 me-2" th:src="${user.getAvatar()}" alt="profile">
                                                     <span th:text="${user.getName()}"></span>
                                                 </td>
                                                 <td th:text="${user.getPhone()}"></td>
