@@ -10,6 +10,7 @@ import com.swiftmart.Models.Samples.TransactionResponse.TransactionRecord;
 import com.swiftmart.Models.Samples.TransactionResponse.TransactionResponse;
 import com.swiftmart.Models.Samples.TransactionInfo;
 import com.swiftmart.Models.User;
+import com.swiftmart.Services.OrderProductService;
 import com.swiftmart.Services.OrderService;
 import com.swiftmart.Services.ProductService;
 import com.swiftmart.Services.UserService;
@@ -37,10 +38,11 @@ public class TransactionController extends BaseController
     private String apiKey;
 
     @Autowired
-    public TransactionController(UserService userService, ProductService productService, OrderService orderService) {
+    public TransactionController(UserService userService, ProductService productService, OrderService orderService, OrderProductService orderProductService) {
         this.userService = userService;
         this.productService = productService;
         this.orderService = orderService;
+        this.orderProductService = orderProductService;
     }
 
     @PostMapping("/add-to-cart")
@@ -98,6 +100,7 @@ public class TransactionController extends BaseController
 
         Order order = orderService.create(authed(), user, transaction.getTotal());
         transaction.setOrder(order);
+        orderProductService.insert(transaction.getCartProducts(), order.get_id());
 
         session.setAttribute("transaction", transaction);
 

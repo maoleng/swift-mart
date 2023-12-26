@@ -1,6 +1,7 @@
 package com.swiftmart.Services;
 
 import com.swiftmart.Models.OrderProduct;
+import com.swiftmart.Models.Samples.CartProductInfo;
 import com.swiftmart.Repositories.Repository;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,20 @@ public class OrderProductService extends BaseService
     public List<OrderProduct> getOrderProductsByOrderId(String orderId)
     {
         return repository.getOrderProductRepository().getOrderProductsByOrderId(orderId);
+    }
+
+    public void insert(List<CartProductInfo> cartProducts, String orderId)
+    {
+        for (CartProductInfo cartProductInfo : cartProducts) {
+            OrderProduct orderProduct = new OrderProduct();
+            orderProduct.setProductId(cartProductInfo.getProduct().get_id());
+            orderProduct.setName(cartProductInfo.getProduct().getName());
+            orderProduct.setOrderId(orderId);
+            orderProduct.setAmount(orderProduct.getAmount());
+            orderProduct.setPrice(orderProduct.getPrice());
+
+            repository.getOrderProductRepository().save(orderProduct);
+        }
     }
 
 }
