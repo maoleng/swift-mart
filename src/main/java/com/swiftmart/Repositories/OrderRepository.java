@@ -12,7 +12,7 @@ public interface OrderRepository extends MongoRepository<Order, String>
 {
 
     List<Order> getOrdersByUserId(String userId);
-    List<Order> getOrdersByCreatedAtBetween(Date start, Date end);
+    List<Order> getOrdersByCreatedAtBetweenOrderByCreatedAtDesc(Date start, Date end);
     Order findBy_id(String orderId);
 
 }

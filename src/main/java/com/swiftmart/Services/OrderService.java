@@ -40,7 +40,7 @@ public class OrderService extends BaseService
             return addOrderInfo(orders);
         }
 
-        orders = repository.getOrderRepository().getOrdersByCreatedAtBetween(startDate, endDate);
+        orders = repository.getOrderRepository().getOrdersByCreatedAtBetweenOrderByCreatedAtDesc(startDate, endDate);
 
         return addOrderInfo(orders);
     }
