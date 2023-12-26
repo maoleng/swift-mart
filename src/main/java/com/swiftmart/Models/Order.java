@@ -1,10 +1,8 @@
 package com.swiftmart.Models;
 
 import com.swiftmart.Enums.OrderStatus;
-import com.swiftmart.Enums.UserStatus;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Calendar;
@@ -27,6 +25,9 @@ public class Order
     private Double receivedMoney;
     private Double gaveBackMoney;
     private Date createdAt;
+
+    private User user;
+    private User sale;
 
     public String getStatusCard()
     {
